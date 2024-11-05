@@ -53,46 +53,4 @@ namespace Ni.Mathematics
         public static float Transform(ProjectionAxis1x3 a, float3 b) => math.dot(b, a.axis) / math.dot(a.axis, a.axis);
         public static float3 Untransform(ProjectionAxis1x3 a, float b) => a.axis * b; 
     }
-
-    public struct ProjectionAxis1x3L
-    {
-        private float3 m_Axis;
-        private float m_Length;
-        private float m_LengthSq;
-        private float m_LengthSqI;
-
-        public float3 axis 
-        { 
-            get => m_Axis; 
-            set
-            {
-                m_Axis = value;
-                m_LengthSq = math.dot(m_Axis, m_Axis);
-                m_LengthSqI = math.rcp(m_LengthSq);
-                m_Length = math.sqrt(m_LengthSq);
-            }
-        }
-
-        public float3 length 
-        {
-            get => m_Length;
-            set
-            {
-                m_Axis = m_Axis * value / m_Length;
-                m_LengthSq = math.dot(m_Axis, m_Axis);
-                m_LengthSqI = math.rcp(m_LengthSq);
-                m_Length = math.sqrt(m_LengthSq);
-            }
-        }
-
-        public float this[float3 o] => math.dot(o, axis) * m_LengthSqI;
-        public ProjectionAxis1x3L(float3 axis)
-        {
-            m_Axis = axis;
-            m_LengthSq = math.dot(m_Axis, m_Axis);
-            m_LengthSqI = math.rcp(m_LengthSq);
-            m_Length = math.sqrt(m_LengthSq);
-        }
-        public ProjectionAxis3x1 Inverse => new ProjectionAxis3x1(m_Axis);
-    }
 }

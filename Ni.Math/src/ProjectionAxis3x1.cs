@@ -57,10 +57,6 @@ namespace Ni.Mathematics
         public float3 Transform(float o) => NiMath.Transform(this, o);
         public float Untransform(float3 o)  => NiMath.Untransform(this, o);
 
-        //public float3 Mul(float o) => NiMath.Mul(this, o);
-        //public float Div(float3 o) => NiMath.Div(this, o);
-
-        //public RayI3 Div(TranslationTransform3 o) => NiMath.Div(this, o); // Translation3 * ProjectionVector3x1
     }
 
     public static partial class NiMath
@@ -75,11 +71,6 @@ namespace Ni.Mathematics
         public static ProjectionAxis3x1 Scale(ProjectionAxis3x1 o, float scale) => new ProjectionAxis3x1(o.axis * scale);
         public static float3 Transform(ProjectionAxis3x1 a, float b) => a.axis * b;
         public static float Untransform(ProjectionAxis3x1 a, float3 b) => math.dot(b, a.axis) / math.dot(a.axis, a.axis);
-
-        //public static float3 Mul(ProjectionAxis3x1 a, float b) => a.axis * b;
-        //public static float Div(ProjectionAxis3x1 a, float3 b) => math.dot(b, a.axis) / math.dot(a.axis, a.axis);
-
-        //public static float Div(ProjectionAxis3x1 a, float3 b) => math.dot(b, a.Axis) / math.dot(a.Axis, a.Axis);
     }
 
 }
