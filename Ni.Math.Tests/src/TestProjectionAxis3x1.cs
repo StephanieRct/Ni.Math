@@ -35,7 +35,5 @@ namespace Ni.Mathematics.Tests
         [Test] public void TestScale1() => Test("Scale1", Projection0.Scale(scale1), Projection0Scale1);
         [Test] public void TestTransform() => Test("Transform", Projection0.Transform(Input0), Output0);
         [Test] public void TestUntransform() => Test("Untransform", Projection0.Untransform(Output0), Input0);
-        [Test] public void TestMul() => Test("Mul", Projection0.Mul(Input0), Output0);
-        [Test] public void TestDiv() => Test("Div", Projection0.Div(Output0), Input0);
     }
 }
