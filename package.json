@@ -1,0 +1,14 @@
+{
+  "name": "ni.math",
+  "displayName": "Ni.Math",
+  "version": "0.5.0",
+  "unity": "2022.2",
+  "unityRelease": "13f1",
+  "dependencies": {
+    "com.unity.mathematics": "1.2.6"
+  },
+  "description": "NiMath",
+  "keywords": [
+    "mathematics"
+  ]
+}
