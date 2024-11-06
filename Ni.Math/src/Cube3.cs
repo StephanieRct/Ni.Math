@@ -14,6 +14,8 @@ namespace Ni.Mathematics
         public static readonly float3 OriginMin = new float3(-0.5f);
         public static readonly float3 OriginMax = new float3(0.5f);
 
+        public const int k_VerticesCount = 8;
+        public const int k_EdgesCount = 12;
 
         /// <summary>
         /// =======================  
