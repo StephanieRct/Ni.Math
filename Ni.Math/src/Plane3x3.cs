@@ -1,3 +1,4 @@
+#if NIMATHEXPERIMENTAL
 using System;
 using Unity.Mathematics;
 
@@ -29,3 +30,4 @@ namespace Ni.Mathematics
         public float3 this[float3 o] => o + Projection.normal * math.dot(Projection.normal, Translation - o) / math.dot(Projection.normal, Projection.normal); //Translation + Projection[o - Translation];
     }
 }
+#endif

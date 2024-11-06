@@ -50,4 +50,17 @@ namespace Ni.Mathematics.Editor
                 Handles.DrawLine(transform.TransformPoint(o.Transform(Cube3.IdentityEdgesArray[i].a)), transform.TransformPoint(o.Transform(Cube3.IdentityEdgesArray[i].b)));
         }
     }
+    public partial class NiMathGizmos
+    {
+        public static void Draw(Obb3M o)
+        {
+            for (int i = 0; i < Cube3.IdentityEdgesArray.Length; i++)
+                Gizmos.DrawLine(o.Transform(Cube3.IdentityEdgesArray[i].a), o.Transform(Cube3.IdentityEdgesArray[i].b));
+        }
+        public static void Draw(Obb3M o, Transform transform)
+        {
+            for (int i = 0; i < Cube3.IdentityEdgesArray.Length; i++)
+                Gizmos.DrawLine(transform.TransformPoint(o.Transform(Cube3.IdentityEdgesArray[i].a)), transform.TransformPoint(o.Transform(Cube3.IdentityEdgesArray[i].b)));
+        }
+    }
 }

@@ -1,11 +1,10 @@
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Ni.Mathematics.Editor
 {
-    public static class PropertySerialization
+    public static partial class PropertySerialization
     {
         static SerializedProperty Sub(SerializedProperty property, string name)
         {

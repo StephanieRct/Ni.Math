@@ -20,17 +20,18 @@ namespace Ni.Mathematics
         ITranslate<Ray3, float>,
         IRotate<Ray3, quaternion>,  // insert rotation: Translation3 * rotation * ProjectionAxis3x1
         IScale<Ray3, float>,
-        //IScale<Ray3, float3>,
         ITransform<float, float3>,
-        IMultipliable<TranslationTransform1, Ray3>, // (Translation3 * ProjectionAxis3x1) * Translation1
-        IDividable<Translation3, RayI3>    // Inverse(Translation3 * ProjectionAxis3x1) * Translation1    
-        //IDividable<TranslationTransform3, float>
+        IMultipliable<TranslationTransform1, Ray3>,
+        IDividable<Translation3, RayI3>  
     {
         /// <summary>
         /// Translation portion of this transform
         /// </summary>
         public float3 translation;
 
+        /// <summary>
+        /// Direction with scale.
+        /// </summary>
         public float3 projectionAxis;
 
         public Ray3(float3 origin, float3 direction)
@@ -75,12 +76,6 @@ namespace Ni.Mathematics
         public bool Equals(Ray3 o) => NiMath.Equal(this, o);
         public bool NearEquals(Ray3 o, float margin) => NiMath.NearEqual(this, o, margin);
 
-        //public bool Raycast(Obb3RI primitive, float maxDistance, out float3 hit)
-        //    => NiMath.Raycast(primitive, this, maxDistance, out hit);
-        //public bool Raycast(Obb3TI primitive, float maxDistance, out float3 hit)
-        //    => NiMath.Raycast(primitive, this, maxDistance, out hit);
-
-
         public RayI3 Inversed => NiMath.Inverse(this); 
         public float3 Transform(float o) => NiMath.Transform(this, o);
         public float Untransform(float3 o) => NiMath.Untransform(this, o);
@@ -100,12 +95,16 @@ namespace Ni.Mathematics
         /// </summary>
         public Ray3 Rotate(quaternion rotation) => NiMath.Rotate(this, rotation);
         public Ray3 Scale(float scale) => NiMath.Scale(this, scale);
-        //public Ray3 Scale(float3 scale) => NiMath.Scale(this, scale);
 
 
         public Ray3 Mul(TranslationTransform1 translation) => NiMath.Mul(this, translation);
         public RayI3 Div(Translation3 translation) => NiMath.Div(this, translation);
-        //public float Div(TranslationTransform3 o) => NiMath.Div(this, o); // Translation3 * ProjectionVector3x1
+
+
+        public bool Cast1(Aabb3M o, float maxDistance, out float t) => NiMath.Raycast1(this, o, maxDistance, out t);
+        public bool Cast1(Aabb3S o, float maxDistance, out float t) => NiMath.Raycast1(this, o, maxDistance, out t);
+        public bool Cast1(Aabb3C o, float maxDistance, out float t) => NiMath.Raycast1(this, o, maxDistance, out t);
+        public bool Cast1<T>(T o, float maxDistance, out float t) where T : ITransform<Ray3> => NiMath.Raycast1(this, o, maxDistance, out t);
     }
 
     public static partial class NiMath
@@ -139,24 +138,10 @@ namespace Ni.Mathematics
         public static float Untransform(Ray3 a, float3 b) => math.dot(b - a.translation, a.projectionAxis) / math.dot(a.projectionAxis, a.projectionAxis);
 
         public static Ray3 Mul(Ray3 o, TranslationTransform1 translation) => Translate(o, translation.translation);
-        public static void Mul(Ray3 o, Rotation3Q rotation) { }
-        public static void Mul(Ray3 o, Scale1 scale) { }
-        public static void Mul(Ray3 o, Scale3 scale) { }
+        public static void Mul(Ray3 o, Scale1 scale) => Scale(o, scale.scale);
 
         public static RayI3 Div(Ray3 o, Translation3 translation) => Inverse(o).Translate(translation.translation);
-        public static void Div(Ray3 o, Rotation3Q rotation) { }
-        public static void Div(Ray3 o, Scale1 scale) { }
-        public static void Div(Ray3 o, Scale3 scale) { }
-
-
-        //public static Ray3 Mul(TranslationTransform3 translation, Ray3 o) => Translate(translation.translation, o);
-        //public static Ray3 Mul(RotationQTransform3 rotation, Ray3 o) => Rotate(rotation, o);
-        //public static Ray3 Mul(ScaleUniformTransform3 scale, Ray3 o) => Scale(scale, o);
-        //public static Ray3 Mul(ScaleNonUniformTransform3 scale, Ray3 o) => Scale(scale, o);
-        //public static Ray3 Div(TranslationTransform3 translation, Ray3 o) => Translate(-translation.translation, o);
-        //public static Ray3 Div(RotationQTransform3 rotation, Ray3 o) => Rotate(Inverse(rotation), o);
-        //public static Ray3 Div(ScaleUniformTransform3 scale, Ray3 o) => Scale(Inverse(scale), o);
-        //public static Ray3 Div(ScaleNonUniformTransform3 scale, Ray3 o) => Scale(Inverse(scale), o);
+        public static RayI3 Div(Ray3 o, Scale1 scale) => Scale(Inverse(o), scale.scale);
 
     }
 

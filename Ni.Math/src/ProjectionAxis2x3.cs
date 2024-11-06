@@ -1,3 +1,4 @@
+#if NIMATHEXPERIMENTAL
 using System;
 using Unity.Mathematics;
 
@@ -51,3 +52,4 @@ namespace Ni.Mathematics
         public ProjectionAxis3x2 Inverse => new ProjectionAxis3x2(uAxis, vAxis);
     }
 }
+#endif

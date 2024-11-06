@@ -99,6 +99,11 @@ namespace Ni.Mathematics
             get => Matrix4x4Transform.scale3;
             set => Matrix4x4Transform.scale3 = value;
         }
+        public Aabb3M TranslationScale { get => Matrix4x4Transform.TranslationScale; set => Matrix4x4Transform.TranslationScale = value; }
+        public RigidTransform3 TranslationRotation { get => Matrix4x4Transform.TranslationRotation; set => Matrix4x4Transform.TranslationRotation = value; }
+        public Matrix3x3Transform3 RotationScale { get => Matrix4x4Transform.RotationScale; set => Matrix4x4Transform.RotationScale = value; }
+        public float3 this[float3 o] => Matrix4x4Transform.Transform(o);
+
         public Translation3 Translation3 { get => new Translation3(translation3); set => translation3 = value.translation; }
         public Rotation3Q Rotation3 { get => new Rotation3Q(rotation3); set => rotation3 = value.rotation; }
         public Scale3 Scale3 { get => new Scale3(scale3); set => scale3 = value.scale; }

@@ -1,3 +1,4 @@
+#if NIMATHEXPERIMENTAL
 using System;
 using Unity.Mathematics;
 
@@ -11,3 +12,4 @@ namespace Ni.Mathematics
         public float3 this[float2 uv] => Translation + Projection[uv];
     }
 }
+#endif

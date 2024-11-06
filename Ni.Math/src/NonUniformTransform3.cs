@@ -139,6 +139,37 @@ namespace Ni.Mathematics
         public static NonUniformTransform3 TRS(float3 translation, quaternion rotation, float scale) => new NonUniformTransform3(translation, rotation, scale);
         public static NonUniformTransform3 TRS(float3 translation, quaternion rotation, float3 scale) => new NonUniformTransform3(translation, rotation, scale);
 
+        public Aabb3M TranslationScale
+        {
+            get => new Aabb3M(translation, scale);
+
+            set
+            {
+                translation = value.translation3;
+                scale = value.scale3;
+            }
+        }
+
+        public RigidTransform3 TranslationRotation
+        {
+            get => new RigidTransform3(translation, rotation);
+            set
+            {
+                translation = value.translation;
+                rotation = value.rotation;
+            }
+        }
+
+        public Matrix3x3Transform3 RotationScale
+        {
+            get => new Matrix3x3Transform3(rotation, scale);
+            set
+            {
+                rotation = value.rotation3;
+                scale = value.scale3;
+            }
+        }
+
         public float3 this[float3 o] => Transform(o);
 
         public Translation3 Translation3 { get => new Translation3(translation); set => translation = value.translation; }

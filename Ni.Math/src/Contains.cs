@@ -4,19 +4,12 @@ namespace Ni.Mathematics
 {
     public static partial class NiMath
     {
-        public static bool Contain(Aabb3M primitive, float3 point)
-            => math.all(point >= primitive.min & point < primitive.max);
-
-        //public static bool Contain(Obb3TI primitive, float3 point)
-        //{
-        //    var pointT = math.transform(primitive.InverseMatrix, point);
-        //    return Contain(Aabb3M.Unit, pointT);
-        //}
-
-        //public static bool Contain(Obb3RI primitive, float3 point)
-        //{
-        //    var pointT = math.transform(primitive.InverseRigidTransform, point);
-        //    return Contain(primitive.Bound, pointT);
-        //}
+        public static bool Contain(float3 point) => math.all(point >= float3.zero & point <= 1);
+        public static bool Contain(Matrix3x3Transform3 o, float3 point) => Contain(o.Untransform(point));
+        public static bool Contain(Aabb3M o, float3 point) => math.all(point >= o.min & point < o.max);
+        public static bool Contain(Aabb3S o, float3 point) => math.all(point >= o.min & point < o.max);
+        public static bool Contain(Aabb3C o, float3 point) => math.all(point >= o.min & point < o.max);
+        public static bool Contain(Obb3T o, float3 point) => Contain(o.Untransform(point));
+        public static bool Contain(Obb3M o, float3 point) => Contain(o.Untransform(point));
     }
 }

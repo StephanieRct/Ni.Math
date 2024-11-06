@@ -91,6 +91,11 @@ namespace Ni.Mathematics
             set => NonUniformTransform.scale = value;
         }
 
+        public Aabb3M TranslationScale { get => NonUniformTransform.TranslationScale; set => NonUniformTransform.TranslationScale = value; }
+        public RigidTransform3 TranslationRotation { get => NonUniformTransform.TranslationRotation; set => NonUniformTransform.TranslationRotation = value; }
+        public Matrix3x3Transform3 RotationScale { get => NonUniformTransform.RotationScale; set => NonUniformTransform.RotationScale = value; }
+        public float3 this[float3 o] => NonUniformTransform.Transform(o);
+
         public Translation3 Translation3 { get => new Translation3(translation3); set => translation3 = value.translation; }
         public Rotation3Q Rotation3 { get => new Rotation3Q(rotation3); set => rotation3 = value.rotation; }
         public Scale3 Scale3 { get => new Scale3(scale3); set => scale3 = value.scale; }

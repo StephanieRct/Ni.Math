@@ -65,4 +65,31 @@ namespace Ni.Mathematics.Editor
             Handles.DrawLine(transform.position, z);
         }
     }
+    public partial class NiMathGizmos
+    {
+        public static void Draw(Rotation3Q o)
+        {
+            var x = o.Transform(new float3(1, 0, 0));
+            var y = o.Transform(new float3(0, 1, 0));
+            var z = o.Transform(new float3(0, 0, 1));
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(float3.zero, x);
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(float3.zero, y);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(float3.zero, z);
+        }
+        public static void Draw(Rotation3Q o, Transform transform)
+        {
+            var x = transform.TransformPoint(o.Transform(new float3(1, 0, 0)));
+            var y = transform.TransformPoint(o.Transform(new float3(0, 1, 0)));
+            var z = transform.TransformPoint(o.Transform(new float3(0, 0, 1)));
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, x);
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, y);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, z);
+        }
+    }
 }

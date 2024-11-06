@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -389,5 +388,36 @@ namespace Ni.Mathematics.Editor
 
         //    EditorGUIUtility.labelWidth = w;
         //}
+    }
+
+    public partial class NiMathHandles
+    {
+        public static void DrawAaCross3(float3 center, float3 scale)
+        {
+            Handles.DrawLine(center - new float3(scale.x,0,0), center + new float3(scale.x, 0, 0));
+            Handles.DrawLine(center - new float3(0, scale.y, 0), center + new float3(0, scale.y, 0));
+            Handles.DrawLine(center - new float3(0, 0, scale.z), center + new float3(0, 0, scale.z));
+        }
+        public static void DrawAaCross3(float3 center, float3 scale, Transform transform)
+        {
+            Handles.DrawLine(transform.TransformPoint(center - new float3(scale.x, 0, 0)), transform.TransformPoint(center + new float3(scale.x, 0, 0)));
+            Handles.DrawLine(transform.TransformPoint(center - new float3(0, scale.y, 0)), transform.TransformPoint(center + new float3(0, scale.y, 0)));
+            Handles.DrawLine(transform.TransformPoint(center - new float3(0, 0, scale.z)), transform.TransformPoint(center + new float3(0, 0, scale.z)));
+        }
+    }
+    public partial class NiMathGizmos
+    {
+        public static void DrawAaCross3(float3 center, float3 scale)
+        {
+            Gizmos.DrawLine(center - new float3(scale.x, 0, 0), center + new float3(scale.x, 0, 0));
+            Gizmos.DrawLine(center - new float3(0, scale.y, 0), center + new float3(0, scale.y, 0));
+            Gizmos.DrawLine(center - new float3(0, 0, scale.z), center + new float3(0, 0, scale.z));
+        }
+        public static void DrawAaCross3(float3 center, float3 scale, Transform transform)
+        {
+            Gizmos.DrawLine(transform.TransformPoint(center - new float3(scale.x, 0, 0)), transform.TransformPoint(center + new float3(scale.x, 0, 0)));
+            Gizmos.DrawLine(transform.TransformPoint(center - new float3(0, scale.y, 0)), transform.TransformPoint(center + new float3(0, scale.y, 0)));
+            Gizmos.DrawLine(transform.TransformPoint(center - new float3(0, 0, scale.z)), transform.TransformPoint(center + new float3(0, 0, scale.z)));
+        }
     }
 }

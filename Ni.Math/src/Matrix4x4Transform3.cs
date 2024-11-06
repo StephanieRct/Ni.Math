@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using Unity.Mathematics;
+using UnityEngine.UIElements;
 
 namespace Ni.Mathematics
 {
@@ -114,10 +115,42 @@ namespace Ni.Mathematics
         public float4 Column2 => matrix.c2;
         public float4 Column3 => matrix.c3;
 
+        public Aabb3M TranslationScale
+        {
+            get => new Aabb3M(translation3, scale3);
+
+            set
+            {
+                translation3 = value.translation3;
+                scale3 = value.scale3;
+            }
+        }
+
+        public RigidTransform3 TranslationRotation 
+        { 
+            get => new RigidTransform3(translation3, rotation3); 
+            set
+            {
+                translation3 = value.translation;
+                rotation3 = value.rotation;
+            }
+        }
+
+        public Matrix3x3Transform3 RotationScale
+        {
+            get => new Matrix3x3Transform3(matrix.c0.xyz, matrix.c1.xyz, matrix.c2.xyz);
+            set
+            {
+                matrix.c0.xyz = value.matrix.c0;
+                matrix.c1.xyz = value.matrix.c1;
+                matrix.c2.xyz = value.matrix.c2;
+            }
+        }
+        public float3 this[float3 o] => Transform(o);
+
         public Translation3 Translation3 { get => new Translation3(translation3); set => translation3 = value.translation; }
         public Rotation3Q Rotation3 { get => new Rotation3Q(rotation3); set => rotation3 = value.rotation; }
         public Scale3 Scale3 { get => new Scale3(scale3); set => scale3 = value.scale; }
-        public float3 this[float3 o] => Transform(o);
 
 
         public override string ToString() => $"{nameof(Matrix4x4Transform3)}({matrix.c0.x}, {matrix.c1.x}, {matrix.c2.x}, {matrix.c3.x}, {matrix.c0.y}, {matrix.c1.y}, {matrix.c2.y}, {matrix.c3.y}, {matrix.c0.z}, {matrix.c1.z}, {matrix.c2.z}, {matrix.c3.z}, {matrix.c0.w}, {matrix.c1.w}, {matrix.c2.w}, {matrix.c3.w})";
