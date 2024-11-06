@@ -104,4 +104,70 @@ namespace Ni.Mathematics.Editor
             Handles.DrawLine(y1, z1);
         }
     }
+    public partial class NiMathGizmos
+    {
+        public static void Draw(Scale1 o)
+        {
+            var x0 = new float3(1, 0, 0);
+            var y0 = new float3(0, 1, 0);
+            var z0 = new float3(0, 0, 1);
+            Gizmos.color = new Color(1, 0, 0, 0.25f);
+            Gizmos.DrawLine(float3.zero, x0);
+            Gizmos.color = new Color(0, 1, 0, 0.25f);
+            Gizmos.DrawLine(float3.zero, y0);
+            Gizmos.color = new Color(0, 0, 1, 0.25f);
+            Gizmos.DrawLine(float3.zero, z0);
+
+            Gizmos.color = new Color(1, 1, 1, 0.5f);
+            Gizmos.DrawLine(x0, y0);
+            Gizmos.DrawLine(x0, z0);
+            Gizmos.DrawLine(y0, z0);
+
+            var x1 = o.Transform(new float3(1, 0, 0));
+            var y1 = o.Transform(new float3(0, 1, 0));
+            var z1 = o.Transform(new float3(0, 0, 1));
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(float3.zero, x1);
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(float3.zero, y1);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(float3.zero, z1);
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(x1, y1);
+            Gizmos.DrawLine(x1, z1);
+            Gizmos.DrawLine(y1, z1);
+        }
+        public static void Draw(Scale1 o, Transform transform)
+        {
+
+            var x0 = transform.TransformPoint(new float3(1, 0, 0));
+            var y0 = transform.TransformPoint(new float3(0, 1, 0));
+            var z0 = transform.TransformPoint(new float3(0, 0, 1));
+            Gizmos.color = new Color(1, 0, 0, 0.25f);
+            Gizmos.DrawLine(transform.position, x0);
+            Gizmos.color = new Color(0, 1, 0, 0.25f);
+            Gizmos.DrawLine(transform.position, y0);
+            Gizmos.color = new Color(0, 0, 1, 0.25f);
+            Gizmos.DrawLine(transform.position, z0);
+
+            Gizmos.color = new Color(1, 1, 1, 0.5f);
+            Gizmos.DrawLine(x0, y0);
+            Gizmos.DrawLine(x0, z0);
+            Gizmos.DrawLine(y0, z0);
+
+            var x1 = transform.TransformPoint(o.Transform(new float3(1, 0, 0)));
+            var y1 = transform.TransformPoint(o.Transform(new float3(0, 1, 0)));
+            var z1 = transform.TransformPoint(o.Transform(new float3(0, 0, 1)));
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, x1);
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, y1);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, z1);
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(x1, y1);
+            Gizmos.DrawLine(x1, z1);
+            Gizmos.DrawLine(y1, z1);
+        }
+    }
 }

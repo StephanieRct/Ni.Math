@@ -1,3 +1,4 @@
+#if NIMATHEXPERIMENTAL
 using System;
 using Unity.Mathematics;
 
@@ -11,3 +12,4 @@ namespace Ni.Mathematics
         // https://stackoverflow.com/questions/18663755/how-to-convert-a-3d-point-on-a-plane-to-uv-coordinates
     }
 }
+#endif

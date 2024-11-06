@@ -1,3 +1,4 @@
+#if NIMATHEXPERIMENTAL
 using System;
 using Unity.Mathematics;
 
@@ -47,3 +48,4 @@ namespace Ni.Mathematics
         }
     }
 }
+#endif

@@ -57,4 +57,22 @@ namespace Ni.Mathematics.Editor
                 Handles.DrawLine(transform.TransformPoint(translation + scale * Cube3.IdentityEdgesArray[i].a), transform.TransformPoint(translation + scale * Cube3.IdentityEdgesArray[i].b));
         }
     }
+    public partial class NiMathGizmos
+    {
+        public static void Draw(Aabb3C o)
+        {
+            var translation = o.translation3;
+            var scale = o.scale3;
+            for (int i = 0; i < Cube3.IdentityEdgesArray.Length; i++)
+                Gizmos.DrawLine(translation + scale * Cube3.IdentityEdgesArray[i].a, translation + scale * Cube3.IdentityEdgesArray[i].b);
+        }
+        public static void Draw(Aabb3C o, Transform transform)
+        {
+            var translation = o.translation3;
+            var scale = o.scale3;
+
+            for (int i = 0; i < Cube3.IdentityEdgesArray.Length; i++)
+                Gizmos.DrawLine(transform.TransformPoint(translation + scale * Cube3.IdentityEdgesArray[i].a), transform.TransformPoint(translation + scale * Cube3.IdentityEdgesArray[i].b));
+        }
+    }
 }

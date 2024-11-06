@@ -49,4 +49,15 @@ namespace Ni.Mathematics.Editor
             Handles.DrawLine(transform.position, transform.TransformPoint(o.translation));
         }
     }
+    public partial class NiMathGizmos
+    {
+        public static void Draw(Translation3 o)
+        {
+            Gizmos.DrawLine(float3.zero, o.translation);
+        }
+        public static void Draw(Translation3 o, Transform transform)
+        {
+            Gizmos.DrawLine(transform.position, transform.TransformPoint(o.translation));
+        }
+    }
 }
