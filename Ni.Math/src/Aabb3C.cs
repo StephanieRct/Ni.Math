@@ -239,7 +239,7 @@ namespace Ni.Mathematics
         public static Aabb3C Mul(Aabb3C a, Translation3 b) => new Aabb3C(a.Transform(b.translation) + a.extent, a.extent);
         public static Obb3M Mul(Aabb3C a, Rotation3Q b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
         public static Aabb3C Mul(Aabb3C a, Scale1 b) => Mathematics.Aabb3C.TS(a.translation3, a.scale3 * b.scale);
-        public static Aabb3C Mul(Aabb3C a, Scale3 b) => (Aabb3C)new Aabb3S(a.min * b.scale, a.size * b.scale);
+        public static Aabb3C Mul(Aabb3C a, Scale3 b) => Mathematics.Aabb3C.TS(a.translation3, a.scale3 * b.scale);
         public static Obb3M Mul(Aabb3C a, RigidTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
         public static Obb3M Mul(Aabb3C a, UniformTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
         public static Obb3M Mul(Aabb3C a, NonUniformTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
