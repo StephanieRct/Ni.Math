@@ -1,10 +1,11 @@
-Mathematics Package for Unity
+Mathematics Package for Unity.
+Provide multiple common 3D transformations and geometry.
 
 Demo here : https://github.com/StephanieRct/Ni.Math.Demo/tree/main
 
 ![demo](https://github.com/StephanieRct/Ni.Math.Demo/blob/main/demo.png)
 
-Transforms:
+Ni.Math Transforms:
   * Translation1 : 1D translation
   * Translation3 : 3D translation
   * Rotation3Q : 3D rotation as quaternion
@@ -27,7 +28,7 @@ Transforms:
   * RayI3 : 1D projection from 3D * 3D translation : 3D inverse ray.
   * LineSegment3: 3D translation * 3D projection from 1D : 2 3D points connected as a line segment
 
-Static classes:
+Ni.Math Static classes:
   * NiMath : Contains all variations of:
      * NearEqual(a, b, margin) : Return if a and b are equal within a margin of error
      * Translate(a, b) : Translate b by a
