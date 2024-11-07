@@ -1,5 +1,9 @@
 Mathematics Package for Unity
 
+Demo here : https://github.com/StephanieRct/Ni.Math.Demo/tree/main
+
+![demo](https://github.com/StephanieRct/Ni.Math.Demo/blob/main/demo.png)
+
 Transforms:
   * Translation1 : 1D translation
   * Translation3 : 3D translation
@@ -24,7 +28,18 @@ Transforms:
   * LineSegment3: 3D translation * 3D projection from 1D : 2 3D points connected as a line segment
 
 Static classes:
-  * NiMath : Contains all variations of Translate, Rotate, Scale, Transform, Mul, Div, etc functions.
+  * NiMath : Contains all variations of:
+     * NearEqual(a, b, margin) : Return if a and b are equal within a margin of error
+     * Translate(a, b) : Translate b by a
+     * Rotate(a, b) : Rotate b by a
+     * Scale(a, b) : Scale b by a
+     * Inverse(a) : return the inverse of transform a
+     * Transform(a, b) : Transform b by a
+     * Untransform(a, b) : Transform b by Inverse(a)
+     * Mul(a, b) : Multiply b by a (combine transforms. Right to left transformation order)
+     * Div(a, b) : Divide b by a (combine inverse transform. Right to left transformation order)
+     * Contains(a, b) : If b is contained within a
+     * Raycast1(ray, b, maxDistance, out float t) : Ray cast on b. return true if ray hits b. Hit 3d point is ray[t]
   * Cube3 : Contains metrics for a 3D cube such as vertices, edges, indices, etc.
     
 Ni.Math.Editor:
