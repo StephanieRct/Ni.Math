@@ -153,7 +153,6 @@ namespace Ni.Mathematics
         INearEquatable<RayI3>,
         IInvertible<Ray3>,
         IScaled<RayI3, float>,
-        //IScaled<RayI3, float3>,
         IRotated<RayI3, quaternion>,
         ITranslated<RayI3, float>,
         ITranslate<RayI3, float3>,
@@ -161,9 +160,6 @@ namespace Ni.Mathematics
         IScale<RayI3, float3>,
         ITransform<float3, float>
     {
-        /// <summary>
-        /// Translation portion of this transform
-        /// </summary>
         public float3 translation3 { get; set; }
 
         public float3 projectionAxis1x3 { get; set; }
@@ -189,15 +185,8 @@ namespace Ni.Mathematics
 
         public static RayI3 Identity => new RayI3(ProjectionAxis1x3.Identity, Translation3.Identity);
 
-        /// <summary>
-        /// Projection portion of this transform.
-        /// Local to the Ray Translation
-        /// </summary>
         public ProjectionAxis1x3 Projection1x3 { get => new ProjectionAxis1x3(projectionAxis1x3); set => projectionAxis1x3 = value.axis; }
 
-        /// <summary>
-        /// Translation portion of this transform
-        /// </summary>
         public Translation3 Translation3 { get => new Translation3(translation3); set => translation3 = value.translation; }
 
         public float3 Origin => Translation3.translation;
@@ -206,78 +195,19 @@ namespace Ni.Mathematics
         public float3 this[float o] => Translation3[Projection1x3[o]];
         public bool Equals(RayI3 o) => NiMath.Equal(this, o);
         public bool NearEquals(RayI3 o, float margin) => NiMath.NearEqual(this, o, margin);
-
-        //public bool Raycast(Obb3RI primitive, float maxDistance, out float3 hit)
-        //    => NiMath.Raycast(primitive, this, maxDistance, out hit);
-        //public bool Raycast(Obb3TI primitive, float maxDistance, out float3 hit)
-        //    => NiMath.Raycast(primitive, this, maxDistance, out hit);
-
-
         public Ray3 Inversed => new Ray3(-translation3, projectionAxis1x3);
         public float Transform(float3 o) => Projection1x3.Transform(Translation3.Transform(o));
         public float3 Untransform(float o) => Translation3.Untransform(Projection1x3.Untransform(o));
 
-
         public RayI3 Translated(float translation) => NiMath.Translate(translation, this);
         public RayI3 Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
         public RayI3 Scaled(float scale) => NiMath.Scale(scale, this);
-        //public RayI3 Scaled(float3 scale) => NiMath.Scale(scale, this);
-
-        /// <summary>
-        /// Move the ray along it's direction
-        /// </summary>
         public RayI3 Translate(float3 translation) => NiMath.Translate(this, translation);
         public RayI3 Scale(float scale) => NiMath.Scale(this, scale);
         public RayI3 Scale(float3 scale) => NiMath.Scale(this, scale);
 
-
         public RayI3 Mul(float3 o) => NiMath.Mul(this, o);
         public Ray3 Div(float o) => NiMath.Div(this, o);
-        //public float Div(TranslationTransform3 o) => NiMath.Div(this, o); // Translation3 * ProjectionVector3x1
-
-
-
-
-
-
-        //public float3 Origin;
-        //public float3 Direction;
-        //public RayI3(float3 origin, float3 dir)
-        //{
-        //    Origin = origin;
-        //    Direction = dir;
-        //}
-
-        ///// <summary>
-        ///// Translation portion of this transform
-        ///// </summary>
-        //public TranslationTransform3 Translation => new TranslationTransform3(Origin);
-
-        ///// <summary>
-        ///// Projection portion of this transform.
-        ///// Local to the Ray Translation
-        ///// </summary>
-        //public ProjectionAxis1x3 Projection => new ProjectionAxis1x3(Direction);
-
-        ////public bool Raycast(Obb3RI primitive, float maxDistance, out float3 hit)
-        ////    => NiMath.Raycast(primitive, this, maxDistance, out hit);
-        ////public bool Raycast(Obb3TI primitive, float maxDistance, out float3 hit)
-        ////    => NiMath.Raycast(primitive, this, maxDistance, out hit);
-
-
-        //public float3 Transform(float o) => Origin + Direction * o;
-        //public float Untransform(float3 o) => math.dot((o - Origin), Direction);
-
-
-        //public Ray3 Translated(float3 translation) => NiMath.Translate(translation, this);
-        //public Ray3 Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
-        //public Ray3 Scaled(float scale) => NiMath.Scale(scale, this);
-        //public Ray3 Scaled(float3 scale) => NiMath.Scale(scale, this);
-
-        //public Ray3 Translate(float3 translation) => NiMath.Translate(this, translation);
-        //public Ray3 Rotate(quaternion rotation) => NiMath.Rotate(this, rotation);
-        //public Ray3 Scale(float scale) => NiMath.Scale(this, scale);
-        //public Ray3 Scale(float3 scale) => NiMath.Scale(this, scale);
     }
 
     public static partial class NiMath
@@ -298,7 +228,6 @@ namespace Ni.Mathematics
         public static float3 Untransform(RayI3 a, float b) => a.Translation3.Untransform(a.Projection1x3.Untransform(b));
 
         public static RayI3 Mul(RayI3 o, float3 translation) => Translate(o, translation);
-        public static Ray3 Div(RayI3 o, float translation) => o.Inversed.Translate(translation); //  Inverse(Translation3 * ProjectionAxis3x1) * Translation1   
-
+        public static Ray3 Div(RayI3 o, float translation) => o.Inversed.Translate(translation);
     }
 }

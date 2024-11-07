@@ -1,6 +1,5 @@
 using System;
 using Unity.Mathematics;
-using UnityEngine.UIElements;
 
 namespace Ni.Mathematics
 {

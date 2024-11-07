@@ -20,22 +20,6 @@ namespace Ni.Mathematics
     public interface IUniformScaleRW : IUniformScale, IUniformScaleW { new float scale1 { get; set; } new Scale1 Scale1 { get; set; } }
     public interface INonUniformScale3RW : INonUniformScale3, INonUniformScale3W { new float3 scale3 { get; set; } new Scale3 Scale3 { get; set; } }
 
-    //public interface ITranslation3 { float3 GetTranslation3f(); TranslationTransform3 GetTranslation3(); }
-    //public interface IRotation3Q { quaternion GetRotation3f(); RotationQTransform3 GetRotation3(); }
-    //public interface IRotation3E { float3 GetEulerRotation3f(); RotationEulerTransform3 GetEulerRotation3(); }
-    //public interface IUniformScale { float GetScale1f(); ScaleUniformTransform3 GetScale1(); }
-    //public interface INonUniformScale3 { float3 GetScale3f(); ScaleNonUniformTransform3 GetScale3(); }
-    //public interface ITranslation3W { void SetTranslation3f(float3 o); void SetTranslation3(TranslationTransform3 o); }
-    //public interface IRotation3QW { void SetRotation3f(quaternion o); void SetRotation3(RotationQTransform3 o); }
-    //public interface IRotation3EW { void SetRotationEuler3f(float3 o); void SetRotationEuler3(RotationEulerTransform3 o); }
-    //public interface IUniformScaleW { void SetScale1f(float o); void SetScale1(ScaleUniformTransform3 o); }
-    //public interface INonUniformScale3W { void SetScale3f(float3 o); void SetScale3(ScaleNonUniformTransform3 o); }
-    //public interface ITranslation3RW : ITranslation3, ITranslation3W {  }
-    //public interface IRotation3QRW : IRotation3Q, IRotation3QW {  }
-    //public interface IRotation3ERW : IRotation3E, IRotation3EW {  }
-    //public interface IUniformScaleRW : IUniformScale, IUniformScaleW {  }
-    //public interface INonUniformScale3RW : INonUniformScale3, INonUniformScale3W {  }
-
     public interface ITranslated<TPrime, TTranslation>
     {
         /// <summary>
@@ -132,6 +116,7 @@ namespace Ni.Mathematics
     {
         NonUniformTransform3 ToNonUniformTransform3 { get; }
     }
+
     public interface IToMatrix3x3Transform
     {
         Matrix3x3Transform3 ToMatrix3x3Transform { get; }
@@ -165,10 +150,12 @@ namespace Ni.Mathematics
         ITransform<float3>
     {
     }
+
     public interface ITransformable3<T, TTranslated, TRotated, TScaled1, TScaled3> : ITransformable3<T, TTranslated, TRotated, TScaled1, TScaled3, TTranslated, TRotated, TScaled1, TScaled3>
     {
 
     }
+
     public interface ITransformable3<T, TTranslated, TRotated, TScaled1, TScaled3, TTranslate, TRotate, TScale1, TScale3> : ITransform3,
         ITranslated<TTranslated, float3>,
         IRotated<TRotated, quaternion>,
@@ -187,8 +174,8 @@ namespace Ni.Mathematics
         IScale<TScale1, Scale1>,
         IScale<TScale3, Scale3>
     {
-
     }
+
     public static partial class NiMath
     {
         public static bool Equal(float a, float b) => a == b;
@@ -206,7 +193,6 @@ namespace Ni.Mathematics
         public static bool NearEqual(quaternion a, quaternion b, float margin) => math.all(math.abs(a.value - b.value) <= margin);
         public static bool NearEqual(float3x3 a, float3x3 b, float margin) => math.all(math.abs(a.c0 - b.c0) <= margin & math.abs(a.c1 - b.c1) <= margin & math.abs(a.c2 - b.c2) <= margin);
         public static bool NearEqual(float4x4 a, float4x4 b, float margin) => math.all(math.abs(a.c0 - b.c0) <= margin & math.abs(a.c1 - b.c1) <= margin & math.abs(a.c2 - b.c2) <= margin & math.abs(a.c3 - b.c3) <= margin);
-
 
         public static bool NearEqualTranslation(float a, float3 b, float margin) => math.all(math.abs(new float3(a, 0, 0) - b) <= margin);
         public static bool NearEqualTranslation(float3 a, float b, float margin) => math.all(math.abs(a - new float3(b, 0, 0)) <= margin);

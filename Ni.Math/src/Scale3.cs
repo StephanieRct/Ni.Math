@@ -177,13 +177,9 @@ namespace Ni.Mathematics
         public static Scale3 Scale(Scale3 o, float3 scale) => new Scale3(o.scale * scale);
         public static NonUniformTransform3 Translate(Translation3 translation, Scale3 o) => new NonUniformTransform3(translation.translation, quaternion.identity, o.scale);
         public static NonUniformTransform3 Rotate(Rotation3Q rotation, Scale3 o) => new NonUniformTransform3(float3.zero, rotation, o.scale);
-        //public static ScaleNonUniformTransform3 Scale(ScaleUniformTransform3 scale, ScaleNonUniformTransform3 o) => new ScaleNonUniformTransform3(scale.scale * o.scale);
         public static Scale3 Scale(Scale3 scale, Scale3 o) => new Scale3(scale.scale * o.scale);
         public static NonUniformTransform3 Translate(Scale3 o, Translation3 translation) => Translate(o, translation.translation);
         public static Matrix3x3Transform3 Rotate(Scale3 o, Rotation3Q rotation) => Rotate(o, rotation.rotation);
-        //public static ScaleNonUniformTransform3 Scale(ScaleNonUniformTransform3 o, ScaleUniformTransform3 scale) => Scale(o, scale.scale);
-        //public static ScaleNonUniformTransform3 Scale(ScaleNonUniformTransform3 o, ScaleNonUniformTransform3 scale) => Scale(o, scale.scale);
-
         public static float3 Transform(Scale3 a, float3 b) => a.scale * b;
         public static Ray3 Transform(Scale3 a, Ray3 b) => Scale(a.scale, b);
         public static float3 Untransform(Scale3 a, float3 b) => Inverse(a).scale * b;
