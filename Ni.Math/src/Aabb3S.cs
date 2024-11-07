@@ -258,26 +258,6 @@ namespace Ni.Mathematics
         public static Obb3M Div(Aabb3S a, Obb3T b) => Mul(Inverse(a), b);
         public static Obb3M Div(Aabb3S a, Obb3M b) => Mul(Inverse(a), b);
 
-        //public static Aabb3S Mul(TranslationTransform3 a, Aabb3S b) => (Aabb3S)new Aabb3S(a.Transform(b.translation3), b.size);
-        //public static Obb3T Mul(RotationQTransform3 a, Aabb3S b) => new Obb3T(new NonUniformTransform3(Rotate(a, b.translation3), a, b.scale3));
-        //public static Aabb3S Mul(ScaleUniformTransform3 a, Aabb3S b) => new Aabb3S(a.scale * b.min, a.scale * b.size);
-        //public static Aabb3S Mul(ScaleNonUniformTransform3 a, Aabb3S b) => new Aabb3S(a.scale * b.min, a.scale * b.size);
-        //public static Obb3T Mul(RigidTransform3 a, Aabb3S b) => new Obb3T(new NonUniformTransform3(a.Transform(b.translation3), a.rotation, b.scale3));
-        //public static Obb3T Mul(UniformTransform3 a, Aabb3S b) => new Obb3T(new NonUniformTransform3(a.Transform(b.translation3), a.rotation, b.scale3));
-        //public static Obb3T Mul(NonUniformTransform3 a, Aabb3S b) => new Obb3T(new NonUniformTransform3(a.Transform(b.translation3), a.rotation, a.scale * b.scale3));
-        //public static Obb3M Mul(Matrix3x3Transform3 a, Aabb3S b) => new Obb3M(Mul(a, b.ToMatrix4x4Transform));
-        //public static Obb3M Mul(Matrix4x4Transform3 a, Aabb3S b) => new Obb3M(Mul(a, b.ToMatrix4x4Transform));
-
-        //public static Aabb3S Div(TranslationTransform3 a, Aabb3S b) => Mul(Inverse(a), b);
-        //public static Obb3T Div(RotationQTransform3 a, Aabb3S b) => Mul(Inverse(a), b);
-        //public static Aabb3S Div(ScaleUniformTransform3 a, Aabb3S b) => Mul(Inverse(a), b);
-        //public static Aabb3S Div(ScaleNonUniformTransform3 a, Aabb3S b) => Mul(Inverse(a), b);
-        //public static Obb3T Div(RigidTransform3 a, Aabb3S b) => Mul(Inverse(a), b);
-        //public static Obb3T Div(UniformTransform3 a, Aabb3S b) => Mul(Inverse(a), b);
-        //public static Obb3M Div(NonUniformTransform3 a, Aabb3S b) => Mul(Inverse(a), b);
-        //public static Obb3M Div(Matrix3x3Transform3 a, Aabb3S b) => Mul(Inverse(a), b);
-        //public static Obb3M Div(Matrix4x4Transform3 a, Aabb3S b) => Mul(Inverse(a), b);
-
         public static Aabb3S Aabb3S(float3 min, float3 size) => new Aabb3S(min, size);
     }
 }

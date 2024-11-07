@@ -70,11 +70,15 @@ namespace Ni.Mathematics
         public Obb3M(Rotation3Q rotation) => Matrix4x4Transform = new float4x4(rotation, float3.zero);
         public Obb3M(Scale1 scale) => Matrix4x4Transform = float4x4.Scale(scale.scale);
         public Obb3M(Scale3 scale) => Matrix4x4Transform = float4x4.Scale(scale.scale);
+        public Obb3M(Aabb3M aabb) => Matrix4x4Transform = new Matrix4x4Transform3(aabb.translation3, quaternion.identity, aabb.scale3);
+        public Obb3M(Aabb3S aabb) => Matrix4x4Transform = new Matrix4x4Transform3(aabb.translation3, quaternion.identity, aabb.scale3);
+        public Obb3M(Aabb3C aabb) => Matrix4x4Transform = new Matrix4x4Transform3(aabb.translation3, quaternion.identity, aabb.scale3);
 
         public static implicit operator float4x4(Obb3M o) => o.Matrix4x4Transform;
         public static implicit operator Obb3M(float4x4 o) => new Obb3M(o);
         public static implicit operator Matrix4x4Transform3(Obb3M o) => o.Matrix4x4Transform;
         public static implicit operator Obb3M(Matrix4x4Transform3 o) => new Obb3M(o);
+        public static explicit operator Obb3M(Obb3T o) => new Obb3M(o.NonUniformTransform.ToMatrix4x4Transform);
         public static readonly Obb3M Identity = new Obb3M(Matrix4x4Transform3.Identity);
         public static readonly Obb3M Origin = new Obb3M(new float4x4(1.0f, 0.0f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, -0.5f, 0.0f, 0.0f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f));
         public static Obb3M Translating(float3 translation) => new Matrix4x4Transform3(float4x4.Translate(translation));

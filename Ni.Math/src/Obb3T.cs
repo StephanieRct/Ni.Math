@@ -1,6 +1,5 @@
 using System;
 using Unity.Mathematics;
-using UnityEngine.UIElements;
 
 namespace Ni.Mathematics
 {
@@ -60,6 +59,9 @@ namespace Ni.Mathematics
         public Obb3T(Translation3 translation) => NonUniformTransform = new NonUniformTransform3(translation);
         public Obb3T(Rotation3Q rotation) => NonUniformTransform = new NonUniformTransform3(rotation);
         public Obb3T(Scale3 scale) => NonUniformTransform = new NonUniformTransform3(scale);
+        public Obb3T(Aabb3M aabb) => NonUniformTransform = new NonUniformTransform3(aabb.translation3, quaternion.identity, aabb.scale3);
+        public Obb3T(Aabb3S aabb) => NonUniformTransform = new NonUniformTransform3(aabb.translation3, quaternion.identity, aabb.scale3);
+        public Obb3T(Aabb3C aabb) => NonUniformTransform = new NonUniformTransform3(aabb.translation3, quaternion.identity, aabb.scale3);
 
         public static readonly Obb3T Identity = new Obb3T(NonUniformTransform3.Identity);
         public static readonly Obb3T Origin = new Obb3T(new NonUniformTransform3(-0.5f, quaternion.identity, 1));
@@ -128,6 +130,7 @@ namespace Ni.Mathematics
         public Obb3M Inversed => NiMath.Inverse(this);
         public NonUniformTransform3 ToNonUniformTransform3 => new NonUniformTransform3(translation3, quaternion.identity, scale3);
         public Matrix4x4Transform3 ToMatrix4x4Transform => NonUniformTransform.ToMatrix4x4Transform;
+        public Obb3M ToObb3M => new Obb3M(NonUniformTransform.ToMatrix4x4Transform);
 
         public Obb3T Translated(float3 translation) => NiMath.Translate(translation, this);
         public Obb3T Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
