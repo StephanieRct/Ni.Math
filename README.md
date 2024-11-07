@@ -1,5 +1,6 @@
 Mathematics Package for Unity.
-Provide multiple common 3D transformations and geometry.
+
+Provides multiple common 3D transformations and geometry.
 
 Demo here : https://github.com/StephanieRct/Ni.Math.Demo/tree/main
 
