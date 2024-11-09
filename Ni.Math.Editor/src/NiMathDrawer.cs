@@ -86,6 +86,7 @@ namespace Ni.Mathematics.Editor
             {
                 PropertySerialization.SetQuaternion(x.changedProperty, math.normalize(PropertySerialization.PropertyQuaternion(x.changedProperty)));
                 x.changedProperty.serializedObject.ApplyModifiedProperties();
+                propField.MarkDirtyRepaint();
             }));
             return propField;
         }
