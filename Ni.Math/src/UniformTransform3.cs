@@ -7,12 +7,10 @@ namespace Ni.Mathematics
     /// Represent the sequence of transformations: Translation * Rotation * UniformScale
     /// </summary>
     [Serializable]
-    public struct UniformTransform3 : ITransform3, IRotation3QRW, ITranslation3RW, IUniformScaleRW,
-        IEquatable<UniformTransform3>,
+    public struct UniformTransform3 : ITransform3<UniformTransform3>, IRotation3QRW, ITranslation3RW, IScale1RW,
         ITransformable3<UniformTransform3, UniformTransform3, UniformTransform3, UniformTransform3, Matrix4x4Transform3, UniformTransform3, UniformTransform3, UniformTransform3, NonUniformTransform3>,
+        //IShearableTransformable3<UniformTransform3, Matrix4x4Transform3>,
         IInvertible<UniformTransform3>,
-        ITransform<float3>,
-        ITransform<Ray3>,
         IMultipliable<Translation3, UniformTransform3>,
         IMultipliable<Rotation3Q, UniformTransform3>,
         IMultipliable<Scale1, UniformTransform3>,
@@ -148,9 +146,9 @@ namespace Ni.Mathematics
         quaternion IRotation3QRW.rotation3 { get => rotation; set => rotation = value; }
         quaternion IRotation3Q.rotation3 => rotation;
         quaternion IRotation3QW.rotation3 { set => rotation = value; }
-        float IUniformScaleRW.scale1 { get => scale; set => scale = value; }
-        float IUniformScale.scale1 => scale;
-        float IUniformScaleW.scale1 { set => scale = value; }
+        float IScale1RW.scale1 { get => scale; set => scale = value; }
+        float IScale1.scale1 => scale;
+        float IScale1W.scale1 { set => scale = value; }
         public RigidTransform3 TranslationRotation { get => new RigidTransform3(translation, rotation); }
 
         public override string ToString() => $"{nameof(UniformTransform3)}(Tx:{translation.x}, Ty:{translation.y}, Tz:{translation.z}, Rx:{rotation.value.x}, Ry:{rotation.value.y}, Rz:{rotation.value.z}, Rw:{rotation.value.w}, S:{scale})";
@@ -191,8 +189,15 @@ namespace Ni.Mathematics
         public NonUniformTransform3 Scale(Scale3 scale) => NiMath.Scale(this, scale);
 
         public float3 Transform(float3 o) => NiMath.Transform(this, o);
+        public Direction3 Transform(Direction3 o) => NiMath.Transform(this, o);
+        public ProjectionAxis3x1 Transform(ProjectionAxis3x1 o) => NiMath.Transform(this, o);
+        public ProjectionAxis1x3 Transform(ProjectionAxis1x3 o) => NiMath.Transform(this, o);
         public Ray3 Transform(Ray3 o) => NiMath.Transform(this, o);
+
         public float3 Untransform(float3 o) => NiMath.Untransform(this, o);
+        public Direction3 Untransform(Direction3 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis3x1 Untransform(ProjectionAxis3x1 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis1x3 Untransform(ProjectionAxis1x3 o) => NiMath.Untransform(this, o);
         public Ray3 Untransform(Ray3 o) => NiMath.Untransform(this, o);
 
         public UniformTransform3 Mul(Translation3 primitive) => NiMath.Mul(this, primitive);
@@ -266,8 +271,14 @@ namespace Ni.Mathematics
         public static NonUniformTransform3 Scale(UniformTransform3 o, Scale3 scale) => Scale(o, scale.scale);
 
         public static float3 Transform(UniformTransform3 a, float3 b) => Translate(a.translation, Rotate(a.rotation, Scale(a.scale, b)));
+        public static Direction3 Transform(UniformTransform3 a, Direction3 b) => new Direction3(Rotate(a.rotation, b.vector));
+        public static ProjectionAxis3x1 Transform(UniformTransform3 a, ProjectionAxis3x1 b) => new ProjectionAxis3x1(Rotate(a.rotation, b.axis));
+        public static ProjectionAxis1x3 Transform(UniformTransform3 a, ProjectionAxis1x3 b) => new ProjectionAxis1x3(Rotate(a.rotation, b.axis));
         public static Ray3 Transform(UniformTransform3 a, Ray3 b) => new Ray3(Transform(a, b.translation), Transform(a.Rotation3, Transform(a.Scale1, b.projectionAxis)));
         public static float3 Untransform(UniformTransform3 a, float3 b) => math.rcp(a.scale) * math.mul(Inverse(a.rotation), -a.translation + b);
+        public static Direction3 Untransform(UniformTransform3 a, Direction3 b) => Transform(Inverse(a), b);
+        public static ProjectionAxis3x1 Untransform(UniformTransform3 a, ProjectionAxis3x1 b) => Transform(Inverse(a), b);
+        public static ProjectionAxis1x3 Untransform(UniformTransform3 a, ProjectionAxis1x3 b) => Transform(Inverse(a), b);
         public static Ray3 Untransform(UniformTransform3 a, Ray3 b) => Transform(Inverse(a), b);
 
         public static UniformTransform3 Mul(UniformTransform3 a, Translation3 b) => Translate(a.translation, Rotate(a.rotation, Scale(a.scale, b)));

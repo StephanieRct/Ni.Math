@@ -7,13 +7,11 @@ namespace Ni.Mathematics
     /// Represent a rotation transform for 3d vectors
     /// </summary>
     [Serializable]
-    public partial struct Rotation3Q : IRotation3QRW, IRotation3ERW,
+    public partial struct Rotation3Q : ITransform3<Rotation3Q>, IRotation3QRW, IRotation3ERW,
         ITransformable3<Rotation3Q, RigidTransform3, Rotation3Q, UniformTransform3, Matrix3x3Transform3, RigidTransform3, Rotation3Q, UniformTransform3, NonUniformTransform3>,
-        IEquatable<Rotation3Q>,
+        //IShearableTransformable3<Rotation3Q, Matrix3x3Transform3>,
         IInvertible<Rotation3Q>,
         IToMatrix3x3Transform,
-        ITransform<float3>,
-        ITransform<Ray3>,
         IMultipliable<Translation3, RigidTransform3>,
         IMultipliable<Rotation3Q>,
         IMultipliable<Scale1, UniformTransform3>,
@@ -116,9 +114,15 @@ namespace Ni.Mathematics
         public NonUniformTransform3 Scale(Scale3 scale) => NiMath.Scale(this, scale);
 
         public float3 Transform(float3 o) => NiMath.Transform(this, o);
+        public Direction3 Transform(Direction3 o) => NiMath.Transform(this, o);
+        public ProjectionAxis3x1 Transform(ProjectionAxis3x1 o) => NiMath.Transform(this, o);
+        public ProjectionAxis1x3 Transform(ProjectionAxis1x3 o) => NiMath.Transform(this, o);
         public Ray3 Transform(Ray3 o) => NiMath.Transform(this, o);
 
         public float3 Untransform(float3 o) => NiMath.Untransform(this, o);
+        public Direction3 Untransform(Direction3 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis3x1 Untransform(ProjectionAxis3x1 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis1x3 Untransform(ProjectionAxis1x3 o) => NiMath.Untransform(this, o);
         public Ray3 Untransform(Ray3 o) => NiMath.Untransform(this, o);
 
         public RigidTransform3 Mul(Translation3 o) => NiMath.Mul(this, o);
@@ -186,8 +190,14 @@ namespace Ni.Mathematics
         public static NonUniformTransform3 Scale(Rotation3Q o, Scale3 scale) => Scale(o, scale.scale);
 
         public static float3 Transform(Rotation3Q a, float3 b) => math.rotate(a.rotation, b);
+        public static Direction3 Transform(Rotation3Q a, Direction3 b) => Rotate(a.rotation, b);
+        public static ProjectionAxis3x1 Transform(Rotation3Q a, ProjectionAxis3x1 b) => Rotate(a.rotation, b);
+        public static ProjectionAxis1x3 Transform(Rotation3Q a, ProjectionAxis1x3 b) => Rotate(a.rotation, b);
         public static Ray3 Transform(Rotation3Q a, Ray3 b) => Rotate(a.rotation, b);
         public static float3 Untransform(Rotation3Q a, float3 b) => math.mul(Inverse(a).rotation, b);
+        public static Direction3 Untransform(Rotation3Q a, Direction3 b) => Rotate(Inverse(a).rotation, b);
+        public static ProjectionAxis3x1 Untransform(Rotation3Q a, ProjectionAxis3x1 b) => Rotate(Inverse(a).rotation, b);
+        public static ProjectionAxis1x3 Untransform(Rotation3Q a, ProjectionAxis1x3 b) => Rotate(Inverse(a).rotation, b);
         public static Ray3 Untransform(Rotation3Q a, Ray3 b) => Rotate(Inverse(a).rotation, b);
 
         public static RigidTransform3 Mul(Rotation3Q a, Translation3 b) => Translate(a, b.translation);

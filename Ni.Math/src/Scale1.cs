@@ -7,13 +7,11 @@ namespace Ni.Mathematics
     /// Represent a uniform scale transform
     /// </summary>
     [Serializable]
-    public struct Scale1 : ITransform3, IUniformScaleRW,
-        IEquatable<Scale1>,
+    public struct Scale1 : ITransform3<Scale1>, IScale1RW,
         ITransformable3<Scale1, UniformTransform3, UniformTransform3, Scale1, Scale3>,
+        //IShearableTransformable3<Scale1, Matrix3x3Transform3>,
         IToMatrix3x3Transform,
         IInvertible<Scale1>,
-        ITransform<float3>,
-        ITransform<Ray3>,
         IMultipliable<Translation3, UniformTransform3>,
         IMultipliable<Rotation3Q, UniformTransform3>,
         IMultipliable<Scale1>,
@@ -62,12 +60,12 @@ namespace Ni.Mathematics
         public static Scale1 Scaling(float uniformScale) => new Scale1(uniformScale);
 
         public float3 this[float3 o] => Transform(o);
-        Scale1 IUniformScaleRW.Scale1 { get => this; set => this = value; }
-        Scale1 IUniformScale.Scale1 => this;
-        Scale1 IUniformScaleW.Scale1 { set => this = value; }
-        float IUniformScaleRW.scale1 { get => scale; set => scale = value; }
-        float IUniformScale.scale1 => scale;
-        float IUniformScaleW.scale1 { set => scale = value; }
+        Scale1 IScale1RW.Scale1 { get => this; set => this = value; }
+        Scale1 IScale1.Scale1 => this;
+        Scale1 IScale1W.Scale1 { set => this = value; }
+        float IScale1RW.scale1 { get => scale; set => scale = value; }
+        float IScale1.scale1 => scale;
+        float IScale1W.scale1 { set => scale = value; }
 
         public override string ToString() => $"{nameof(Scale1)}({scale})";
         
@@ -107,10 +105,17 @@ namespace Ni.Mathematics
         public Scale1 Scale(Scale1 scale) => NiMath.Scale(this, scale);
         public Scale3 Scale(Scale3 scale) => NiMath.Scale(this, scale);
 
-        public float3 Transform(float3 position) => NiMath.Transform(this, position);
-        public Ray3 Transform(Ray3 primitive) => NiMath.Transform(this, primitive);
-        public float3 Untransform(float3 position) => NiMath.Untransform(this, position);
-        public Ray3 Untransform(Ray3 primitive) => NiMath.Untransform(this, primitive);
+        public float3 Transform(float3 o) => NiMath.Transform(this, o);
+        public Direction3 Transform(Direction3 o) => o;
+        public ProjectionAxis3x1 Transform(ProjectionAxis3x1 o) => NiMath.Transform(this, o);
+        public ProjectionAxis1x3 Transform(ProjectionAxis1x3 o) => NiMath.Transform(this, o);
+        public Ray3 Transform(Ray3 o) => NiMath.Transform(this, o);
+
+        public float3 Untransform(float3 o) => NiMath.Untransform(this, o);
+        public Direction3 Untransform(Direction3 o) => o;
+        public ProjectionAxis3x1 Untransform(ProjectionAxis3x1 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis1x3 Untransform(ProjectionAxis1x3 o) => NiMath.Untransform(this, o);
+        public Ray3 Untransform(Ray3 o) => NiMath.Untransform(this, o);
 
         public UniformTransform3 Mul(Translation3 primitive) => NiMath.Mul(this, primitive);
         public UniformTransform3 Mul(Rotation3Q primitive) => NiMath.Mul(this, primitive);
@@ -184,8 +189,12 @@ namespace Ni.Mathematics
         public static Scale3 Scale(Scale1 o, Scale3 scale) => Scale(o, scale.scale);
 
         public static float3 Transform(Scale1 a, float3 b) => a.scale * b;
+        public static ProjectionAxis3x1 Transform(Scale1 a, ProjectionAxis3x1 b) => Scale(a.scale, b);
+        public static ProjectionAxis1x3 Transform(Scale1 a, ProjectionAxis1x3 b) => Scale(a.scale, b);
         public static Ray3 Transform(Scale1 a, Ray3 b) => Scale(a.scale, b);
         public static float3 Untransform(Scale1 a, float3 b) => Inverse(a).scale * b;
+        public static ProjectionAxis3x1 Untransform(Scale1 a, ProjectionAxis3x1 b) => Scale(Inverse(a).scale, b);
+        public static ProjectionAxis1x3 Untransform(Scale1 a, ProjectionAxis1x3 b) => Scale(Inverse(a).scale, b);
         public static Ray3 Untransform(Scale1 a, Ray3 b) => Scale(Inverse(a).scale, b);
 
         public static UniformTransform3 Mul(Scale1 a, Translation3 b) => Translate(a, b.translation);

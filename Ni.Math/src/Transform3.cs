@@ -7,18 +7,21 @@ namespace Ni.Mathematics
     public interface ITranslation3 { float3 translation3 { get; } Translation3 Translation3 { get; } }
     public interface IRotation3Q { quaternion rotation3 { get; } Rotation3Q Rotation3 { get; } }
     public interface IRotation3E { float3 eulerRotation3 { get; } Rotation3Euler EulerRotation3 { get; } }
-    public interface IUniformScale { float scale1 { get; } Scale1 Scale1 { get; } }
-    public interface INonUniformScale3 { float3 scale3 { get; } Scale3 Scale3 { get; } }
+    public interface IScale1 { float scale1 { get; } Scale1 Scale1 { get; } }
+    public interface IScale3 { float3 scale3 { get; } Scale3 Scale3 { get; } }
+    public interface IShear3 { float3 shear3 { get; } ShearXY3 Shear3 { get; } }
     public interface ITranslation3W { float3 translation3 { set; } Translation3 Translation3 { set; } }
     public interface IRotation3QW { quaternion rotation3 { set; } Rotation3Q Rotation3 { set; } }
     public interface IRotation3EW { float3 eulerRotation3 { set; } Rotation3Euler EulerRotation3 { set; } }
-    public interface IUniformScaleW { float scale1 { set; } Scale1 Scale1 { set; } }
-    public interface INonUniformScale3W { float3 scale3 { set; } Scale3 Scale3 { set; } }
+    public interface IScale1W { float scale1 { set; } Scale1 Scale1 { set; } }
+    public interface IScale3W { float3 scale3 { set; } Scale3 Scale3 { set; } }
+    public interface IShear3W { float3 shear3 { set; } ShearXY3 Shear3 { set; } }
     public interface ITranslation3RW : ITranslation3, ITranslation3W { new float3 translation3 { get; set; } new Translation3 Translation3 { get; set; } }
     public interface IRotation3QRW : IRotation3Q, IRotation3QW { new quaternion rotation3 { get; set; } new Rotation3Q Rotation3 { get; set; } }
     public interface IRotation3ERW : IRotation3E, IRotation3EW { new float3 eulerRotation3 { get; set; } new Rotation3Euler EulerRotation3 { get; set; } }
-    public interface IUniformScaleRW : IUniformScale, IUniformScaleW { new float scale1 { get; set; } new Scale1 Scale1 { get; set; } }
-    public interface INonUniformScale3RW : INonUniformScale3, INonUniformScale3W { new float3 scale3 { get; set; } new Scale3 Scale3 { get; set; } }
+    public interface IScale1RW : IScale1, IScale1W { new float scale1 { get; set; } new Scale1 Scale1 { get; set; } }
+    public interface IScale3RW : IScale3, IScale3W { new float3 scale3 { get; set; } new Scale3 Scale3 { get; set; } }
+    public interface IShear3RW : IShear3, IShear3W { new float3 shear3 { get; set; } new ShearXY3 Shear3 { get; set; } }
 
     public interface ITranslated<TPrime, TTranslation>
     {
@@ -47,6 +50,15 @@ namespace Ni.Mathematics
         TPrime Scaled(TScale scale);
     }
 
+    public interface ISheared<TPrime, TShear>
+    {
+        /// <summary>
+        /// Add a shear after this transform.
+        /// (Transformation order: Left to Right)
+        /// </summary>
+        TPrime Sheared(TShear shear);
+    }
+
     public interface ITranslate<TPrime, TTranslation>
     {
         /// <summary>
@@ -73,6 +85,14 @@ namespace Ni.Mathematics
         /// </summary>
         TPrime Scale(TScale scale);
     }
+    public interface IShear<TPrime, TShear>
+    {
+        /// <summary>
+        /// Add a shear before this transform.
+        /// (Transformation order: Right to Left)
+        /// </summary>
+        TPrime Shear(TShear shear);
+    }
 
     /// <summary>
     /// TODO.
@@ -94,22 +114,26 @@ namespace Ni.Mathematics
     {
     }
 
+    public interface ITransform<TOther, TPrime> : ITransform<TOther, TPrime, TOther>
+    {
+    }
+
     /// <summary>
     /// Has the possibility to transform / untransform from one primitive to another
     /// </summary>
-    public interface ITransform<TOther, TPrime>
+    public interface ITransform<TOther, TTransformPrime, TUntransformPrime>
     {
         /// <summary>
         /// Perform this transform after an another.
         /// (Transformation order: Right to Left)
         /// </summary>
-        TPrime Transform(TOther o);
+        TTransformPrime Transform(TOther o);
 
         /// <summary>
         /// Perform the reverse transformation after an another.
         /// (Transformation order: Right to Left)
         /// </summary>
-        TOther Untransform(TPrime o);
+        TUntransformPrime Untransform(TTransformPrime o);
     }
 
     public interface IToNonUniformTransform3
@@ -126,11 +150,8 @@ namespace Ni.Mathematics
     {
         Matrix4x4Transform3 ToMatrix4x4Transform { get; }
     }
-    
-    /// <summary>
-    /// 3D transform
-    /// </summary>
-    public interface ITransform3 :
+
+    public interface ITransform3Common :
         INearEquatable<Translation3>,
         INearEquatable<Rotation3Q>,
         INearEquatable<Scale1>,
@@ -140,23 +161,48 @@ namespace Ni.Mathematics
         INearEquatable<NonUniformTransform3>,
         INearEquatable<Matrix3x3Transform3>,
         INearEquatable<Matrix4x4Transform3>,
-        //INearEquatable<Aabb3M>,
-        //INearEquatable<Aabb3S>,
-        //INearEquatable<Aabb3C>,
-        //INearEquatable<Obb3M>,
-        //INearEquatable<Obb3T>,
-        //INearEquatable<Obb3M3>,
+        IToMatrix4x4Transform
+    {
+    }
+
+
+    /// <summary>
+    /// 3D transform
+    /// </summary>
+    public interface ITransform3 :
         IToMatrix4x4Transform,
-        ITransform<float3>
+        ITransform<float3>,
+        ITransform<Direction3>,
+        ITransform<ProjectionAxis3x1>,
+        ITransform<ProjectionAxis1x3>,
+        ITransform<Ray3>
     {
     }
 
-    public interface ITransformable3<T, TTranslated, TRotated, TScaled1, TScaled3> : ITransformable3<T, TTranslated, TRotated, TScaled1, TScaled3, TTranslated, TRotated, TScaled1, TScaled3>
+    public interface ITransform3<TSelf> : ITransform3,
+        INearEquatable<TSelf>,
+        IEquatable<TSelf>
+    {
+    }
+
+    //public interface INonUniformTransform3 : ITransform3,
+    //    ITransform<Direction3, ProjectionAxis3x1, ProjectionAxis3x1>
+    //{
+    //}
+
+    //public interface INonUniformTransform3<TSelf> : INonUniformTransform3,
+    //    INearEquatable<TSelf>,
+    //    IEquatable<TSelf>
+    //{
+    //}
+
+    public interface ITransformable3<TSelf, TTranslated, TRotated, TScaled1, TScaled3> : ITransformable3<TSelf, TTranslated, TRotated, TScaled1, TScaled3, TTranslated, TRotated, TScaled1, TScaled3>
     {
 
     }
 
-    public interface ITransformable3<T, TTranslated, TRotated, TScaled1, TScaled3, TTranslate, TRotate, TScale1, TScale3> : ITransform3,
+    public interface ITransformable3<TSelf, TTranslated, TRotated, TScaled1, TScaled3, TTranslate, TRotate, TScale1, TScale3> :
+        INearEquatable<TSelf>,
         ITranslated<TTranslated, float3>,
         IRotated<TRotated, quaternion>,
         IScaled<TScaled1, float>,
@@ -174,6 +220,31 @@ namespace Ni.Mathematics
         IScale<TScale1, Scale1>,
         IScale<TScale3, Scale3>
     {
+    }
+
+    public interface IShearableTransformable3<TSelf> : IShearableTransformable3<TSelf, TSelf, TSelf>
+    {
+    }
+
+    public interface IShearableTransformable3<TSelf, TSheared> : IShearableTransformable3<TSelf, TSheared, TSheared>
+    {
+    }
+
+    public interface IShearableTransformable3<TSelf, TSheared, TShear> :
+        INearEquatable<TSelf>,
+        ISheared<TSheared, float3>,
+        IShear<TShear, float3>,
+        ISheared<TSheared, ShearXY3>,
+        IShear<TShear, ShearXY3>
+    {
+    }
+    public interface IBox3 : ITransform3
+    {
+
+    }
+    public interface IBox3<TSelf> : IBox3, ITransform3<TSelf>
+    {
+
     }
 
     public static partial class NiMath

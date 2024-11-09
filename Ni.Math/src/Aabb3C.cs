@@ -7,15 +7,13 @@ namespace Ni.Mathematics
     /// Represent the sequence of transformations: Translation * NonUniformScale
     /// </summary>
     [Serializable]
-    public struct Aabb3C : ITransform3, ITranslation3RW, INonUniformScale3RW,
-        IEquatable<Aabb3C>,
-        INearEquatable<Aabb3C, float>,
+    public struct Aabb3C : ITranslation3RW, IScale3RW,
+        ITransform3<Aabb3C>,
+        //IShearableTransformable3<Aabb3C, Obb3M>,
+        IBox3<Aabb3C>,
         ITransformable3<Translation3, Aabb3C, Obb3T, Aabb3C, Aabb3C, Aabb3C, Obb3M, Aabb3C, Aabb3C>,
         IToNonUniformTransform3,
-        IToMatrix4x4Transform,
         IInvertible<Aabb3C>,
-        ITransform<float3>,
-        ITransform<Ray3>,
         IMultipliable<Translation3, Aabb3C>,
         IMultipliable<Rotation3Q, Obb3M>,
         IMultipliable<Scale1, Aabb3C>,
@@ -156,10 +154,17 @@ namespace Ni.Mathematics
         public Aabb3C Scale(Scale1 scale) => NiMath.Scale(this, scale);
         public Aabb3C Scale(Scale3 scale) => NiMath.Scale(this, scale);
 
-        public float3 Transform(float3 p) => NiMath.Transform(this, p);
-        public Ray3 Transform(Ray3 p) => NiMath.Transform(this, p);
-        public float3 Untransform(float3 p) => NiMath.Untransform(this, p);
-        public Ray3 Untransform(Ray3 p) => NiMath.Untransform(this, p);
+        public float3 Transform(float3 o) => NiMath.Transform(this, o);
+        public Direction3 Transform(Direction3 o) => NiMath.Transform(this, o);
+        public ProjectionAxis3x1 Transform(ProjectionAxis3x1 o) => NiMath.Transform(this, o);
+        public ProjectionAxis1x3 Transform(ProjectionAxis1x3 o) => NiMath.Transform(this, o);
+        public Ray3 Transform(Ray3 o) => NiMath.Transform(this, o);
+
+        public float3 Untransform(float3 o) => NiMath.Untransform(this, o);
+        public Direction3 Untransform(Direction3 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis3x1 Untransform(ProjectionAxis3x1 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis1x3 Untransform(ProjectionAxis1x3 o) => NiMath.Untransform(this, o);
+        public Ray3 Untransform(Ray3 o) => NiMath.Untransform(this, o);
 
         public Aabb3C Mul(Translation3 o) => NiMath.Mul(this, o);
         public Obb3M Mul(Rotation3Q o) => NiMath.Mul(this, o);
@@ -232,8 +237,14 @@ namespace Ni.Mathematics
         public static Aabb3C Scale(Aabb3C o, Scale3 scale) => Mul(o, (Scale3)scale);
 
         public static float3 Transform(Aabb3C a, float3 b) => a.min + a.size * b;
+        public static Direction3 Transform(Aabb3C a, Direction3 b) => Direction3.Direction(Scale(a.scale3, b.vector));
+        public static ProjectionAxis3x1 Transform(Aabb3C a, ProjectionAxis3x1 b) => new ProjectionAxis3x1(Scale(a.scale3, b.axis));
+        public static ProjectionAxis1x3 Transform(Aabb3C a, ProjectionAxis1x3 b) => new ProjectionAxis1x3(Scale(a.scale3, b.axis));
         public static Ray3 Transform(Aabb3C a, Ray3 b) => Transform(a.Translation3, Transform(a.Scale3, b));
         public static float3 Untransform(Aabb3C a, float3 b) => (b - a.min) * math.rcp(a.size);
+        public static Direction3 Untransform(Aabb3C a, Direction3 b) => Transform(Inverse(a), b);
+        public static ProjectionAxis3x1 Untransform(Aabb3C a, ProjectionAxis3x1 b) => Transform(Inverse(a), b);
+        public static ProjectionAxis1x3 Untransform(Aabb3C a, ProjectionAxis1x3 b) => Transform(Inverse(a), b);
         public static Ray3 Untransform(Aabb3C a, Ray3 b) => Transform(Inverse(a), b);
 
         public static Aabb3C Mul(Aabb3C a, Translation3 b) => new Aabb3C(a.Transform(b.translation) + a.extent, a.extent);
