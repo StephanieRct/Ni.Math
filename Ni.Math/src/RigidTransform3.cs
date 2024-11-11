@@ -119,7 +119,7 @@ namespace Ni.Mathematics
         public bool NearEquals(Matrix4x4Transform3 other, float margin) => NiMath.NearEqual(this, other, margin);
 
         public RigidTransform3 Inversed => NiMath.Inverse(this);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => new float4x4(rotation, translation);
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => new float4x4(rotation, translation);
 
         public RigidTransform3 Translated(float3 translation) => NiMath.Translate(translation, this);
         public RigidTransform3 Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
@@ -195,7 +195,7 @@ namespace Ni.Mathematics
         public static bool NearEqual(RigidTransform3 a, UniformTransform3 b, float margin) => NearEqual(a.translation, b.translation, margin) && NearEqual(a.rotation, b.rotation, margin) && NearEqual(1, b.scale, margin);
         public static bool NearEqual(RigidTransform3 a, NonUniformTransform3 b, float margin) => NearEqual(a.translation, b.translation, margin) && NearEqual(a.rotation, b.rotation, margin) && NearEqual(new float3(1), b.scale, margin);
         public static bool NearEqual(RigidTransform3 a, Matrix3x3Transform3 b, float margin) => NearEqual(a.translation, float3.zero, margin) && NearEqual(new Matrix3x3Transform3(a.rotation), b, margin);
-        public static bool NearEqual(RigidTransform3 a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform, b, margin);
+        public static bool NearEqual(RigidTransform3 a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform3, b, margin);
 
         public static RigidTransform3 Inverse(RigidTransform3 o)
         {
@@ -248,7 +248,7 @@ namespace Ni.Mathematics
         public static Obb3T Mul(RigidTransform3 a, Aabb3C b) => new NonUniformTransform3(Transform(a, b.translation3), a.rotation, b.scale3);
         public static Obb3T Mul(RigidTransform3 a, Aabb3S b) => new NonUniformTransform3(Transform(a, b.translation3), a.rotation, b.scale3);
         public static Obb3T Mul(RigidTransform3 a, Obb3T b) => Mul(a, b.NonUniformTransform);
-        public static Obb3M Mul(RigidTransform3 a, Obb3M b) => Mul(a, b.ToMatrix4x4Transform);
+        public static Obb3M Mul(RigidTransform3 a, Obb3M b) => Mul(a, b.ToMatrix4x4Transform3);
         public static RigidTransform3 Div(RigidTransform3 a, Translation3 b) => Rotate(Inverse(a.rotation), Translate(-a.translation, b));
         public static RigidTransform3 Div(RigidTransform3 a, Rotation3Q b) => Rotate(Inverse(a.rotation), Translate(-a.translation, b));
         public static UniformTransform3 Div(RigidTransform3 a, Scale1 b) => Rotate(Inverse(a.rotation), Translate(-a.translation, b));

@@ -42,7 +42,7 @@ namespace Ni.Mathematics
 
         public override string ToString() => $"{nameof(Rotation3Euler)}({rotation.x}, {rotation.y}, {rotation.z})";
 
-        public Matrix4x4Transform3 ToMatrix4x4Transform => new float4x4(quaternion.EulerXYZ(rotation), float3.zero);
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => new float4x4(quaternion.EulerXYZ(rotation), float3.zero);
 
         public float3 Transform(float3 o) => math.mul(quaternion.EulerXYZ(o), o);
     }

@@ -53,9 +53,12 @@ namespace Ni.Mathematics
         public float3 shear3 { get => shear3; set => shear3 = value; }
         public ShearXY3 Shear3 { get => new ShearXY3(shear3); set => shear3 = value.shear; }
 
-        public Matrix3x3Transform3 ToMatrix3x3Transform => Matrix3x3Transform3.Shearing(shear);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => Matrix4x4Transform3.Shearing(shear);
+        public Matrix3x3Transform3 ToMatrix3x3Transform3 => Matrix3x3Transform3.Shearing(shear);
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => Matrix4x4Transform3.Shearing(shear);
 
+        public float x { get => shear.x; set => shear.x = value; }
+        public float y { get => shear.y; set => shear.y = value; }
+        public float z { get => shear.z; set => shear.z = value; }
         public bool Equals(ShearXY3 o) => math.all(shear == o.shear);
         public bool NearEquals(ShearXY3 o, float margin) => NiMath.NearEqual(this, o, margin);
 
@@ -134,36 +137,36 @@ namespace Ni.Mathematics
         public static ProjectionAxis3x1 Untransform(ShearXY3 a, ProjectionAxis3x1 b) => Transform(Inverse(a), b);
         public static ProjectionAxis1x3 Untransform(ShearXY3 a, ProjectionAxis1x3 b) => Transform(Inverse(a), b);
         public static Ray3 Untransform(ShearXY3 a, Ray3 b) => Transform(Inverse(a), b);
-        public static Matrix4x4Transform3 Translate(float3 translation, ShearXY3 o) => new Matrix4x4Transform3(translation, o.ToMatrix3x3Transform);
+        public static Matrix4x4Transform3 Translate(float3 translation, ShearXY3 o) => new Matrix4x4Transform3(translation, o.ToMatrix3x3Transform3);
         public static Matrix3x3Transform3 Rotate(quaternion rotation, ShearXY3 o) => new Matrix3x3Transform3(rotation, o);
-        public static Matrix3x3Transform3 Scale(float scale, ShearXY3 o) => math.mul(float3x3.Scale(scale), o.ToMatrix3x3Transform);
-        public static Matrix3x3Transform3 Scale(float3 scale, ShearXY3 o) => math.mul(float3x3.Scale(scale), o.ToMatrix3x3Transform);
-        public static Matrix4x4Transform3 Translate(ShearXY3 o, float3 translation) => math.mul(o.ToMatrix4x4Transform, float4x4.Translate(translation));
-        public static Matrix3x3Transform3 Rotate(ShearXY3 o, quaternion rotation) => math.mul(o.ToMatrix3x3Transform, new float3x3(rotation));
-        public static Matrix3x3Transform3 Scale(ShearXY3 o, float scale) => math.mul(o.ToMatrix3x3Transform, float3x3.Scale(scale));
-        public static Matrix3x3Transform3 Scale(ShearXY3 o, float3 scale) => math.mul(o.ToMatrix3x3Transform, float3x3.Scale(scale));
-        public static Matrix4x4Transform3 Translate(ShearXY3 o, Translation3 translation) => math.mul(o.ToMatrix4x4Transform, translation.ToMatrix4x4Transform);
-        public static Matrix3x3Transform3 Rotate(ShearXY3 o, Rotation3Q rotation) => math.mul(o.ToMatrix3x3Transform, rotation.ToMatrix3x3Transform);
-        public static Matrix3x3Transform3 Scale(ShearXY3 o, Scale1 scale) => math.mul(o.ToMatrix3x3Transform, scale.ToMatrix3x3Transform);
-        public static Matrix3x3Transform3 Scale(ShearXY3 o, Scale3 scale) => math.mul(o.ToMatrix3x3Transform, scale.ToMatrix3x3Transform);
-        public static Matrix4x4Transform3 Translate(Translation3 translation, ShearXY3 o) => new Matrix4x4Transform3(translation, o.ToMatrix3x3Transform);
+        public static Matrix3x3Transform3 Scale(float scale, ShearXY3 o) => math.mul(float3x3.Scale(scale), o.ToMatrix3x3Transform3);
+        public static Matrix3x3Transform3 Scale(float3 scale, ShearXY3 o) => math.mul(float3x3.Scale(scale), o.ToMatrix3x3Transform3);
+        public static Matrix4x4Transform3 Translate(ShearXY3 o, float3 translation) => math.mul(o.ToMatrix4x4Transform3, float4x4.Translate(translation));
+        public static Matrix3x3Transform3 Rotate(ShearXY3 o, quaternion rotation) => math.mul(o.ToMatrix3x3Transform3, new float3x3(rotation));
+        public static Matrix3x3Transform3 Scale(ShearXY3 o, float scale) => math.mul(o.ToMatrix3x3Transform3, float3x3.Scale(scale));
+        public static Matrix3x3Transform3 Scale(ShearXY3 o, float3 scale) => math.mul(o.ToMatrix3x3Transform3, float3x3.Scale(scale));
+        public static Matrix4x4Transform3 Translate(ShearXY3 o, Translation3 translation) => math.mul(o.ToMatrix4x4Transform3, translation.ToMatrix4x4Transform3);
+        public static Matrix3x3Transform3 Rotate(ShearXY3 o, Rotation3Q rotation) => math.mul(o.ToMatrix3x3Transform3, rotation.ToMatrix3x3Transform3);
+        public static Matrix3x3Transform3 Scale(ShearXY3 o, Scale1 scale) => math.mul(o.ToMatrix3x3Transform3, scale.ToMatrix3x3Transform3);
+        public static Matrix3x3Transform3 Scale(ShearXY3 o, Scale3 scale) => math.mul(o.ToMatrix3x3Transform3, scale.ToMatrix3x3Transform3);
+        public static Matrix4x4Transform3 Translate(Translation3 translation, ShearXY3 o) => new Matrix4x4Transform3(translation, o.ToMatrix3x3Transform3);
         public static Matrix3x3Transform3 Rotate(Rotation3Q rotation, ShearXY3 o) => new Matrix3x3Transform3(rotation, o);
-        public static Matrix3x3Transform3 Scale(Scale1 scale, ShearXY3 o) => math.mul(scale.ToMatrix3x3Transform, o.ToMatrix3x3Transform);
-        public static Matrix3x3Transform3 Scale(Scale3 scale, ShearXY3 o) => math.mul(scale.ToMatrix3x3Transform, o.ToMatrix3x3Transform);
+        public static Matrix3x3Transform3 Scale(Scale1 scale, ShearXY3 o) => math.mul(scale.ToMatrix3x3Transform3, o.ToMatrix3x3Transform3);
+        public static Matrix3x3Transform3 Scale(Scale3 scale, ShearXY3 o) => math.mul(scale.ToMatrix3x3Transform3, o.ToMatrix3x3Transform3);
         public static Matrix4x4Transform3 Mul(ShearXY3 a, Translation3 b) => Translate(a, b);
         public static Matrix3x3Transform3 Mul(ShearXY3 a, Rotation3Q b) => Rotate(a, b);
         public static Matrix3x3Transform3 Mul(ShearXY3 a, Scale1 b) => Scale(a, b);
         public static Matrix3x3Transform3 Mul(ShearXY3 a, Scale3 b) => Scale(a, b);
-        public static Matrix4x4Transform3 Mul(ShearXY3 a, RigidTransform3 b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
-        public static Matrix4x4Transform3 Mul(ShearXY3 a, UniformTransform3 b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
-        public static Matrix4x4Transform3 Mul(ShearXY3 a, NonUniformTransform3 b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
-        public static Matrix3x3Transform3 Mul(ShearXY3 a, Matrix3x3Transform3 b) => math.mul(a.ToMatrix3x3Transform, b.ToMatrix3x3Transform);
-        public static Matrix4x4Transform3 Mul(ShearXY3 a, Matrix4x4Transform3 b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
-        public static Obb3M Mul(ShearXY3 a, Aabb3M b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
-        public static Obb3M Mul(ShearXY3 a, Aabb3C b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
-        public static Obb3M Mul(ShearXY3 a, Aabb3S b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
-        public static Obb3M Mul(ShearXY3 a, Obb3T b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
-        public static Obb3M Mul(ShearXY3 a, Obb3M b) => math.mul(a.ToMatrix4x4Transform, b.ToMatrix4x4Transform);
+        public static Matrix4x4Transform3 Mul(ShearXY3 a, RigidTransform3 b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
+        public static Matrix4x4Transform3 Mul(ShearXY3 a, UniformTransform3 b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
+        public static Matrix4x4Transform3 Mul(ShearXY3 a, NonUniformTransform3 b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
+        public static Matrix3x3Transform3 Mul(ShearXY3 a, Matrix3x3Transform3 b) => math.mul(a.ToMatrix3x3Transform3, b.ToMatrix3x3Transform3);
+        public static Matrix4x4Transform3 Mul(ShearXY3 a, Matrix4x4Transform3 b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
+        public static Obb3M Mul(ShearXY3 a, Aabb3M b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
+        public static Obb3M Mul(ShearXY3 a, Aabb3C b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
+        public static Obb3M Mul(ShearXY3 a, Aabb3S b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
+        public static Obb3M Mul(ShearXY3 a, Obb3T b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
+        public static Obb3M Mul(ShearXY3 a, Obb3M b) => math.mul(a.ToMatrix4x4Transform3, b.ToMatrix4x4Transform3);
         public static Matrix4x4Transform3 Div(ShearXY3 a, Translation3 b) => Mul(Inverse(a), b);
         public static Matrix3x3Transform3 Div(ShearXY3 a, Rotation3Q b) => Mul(Inverse(a), b);
         public static Matrix3x3Transform3 Div(ShearXY3 a, Scale1 b) => Mul(Inverse(a), b);

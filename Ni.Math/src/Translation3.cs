@@ -85,7 +85,7 @@ namespace Ni.Mathematics
         public bool NearEquals(Matrix4x4Transform3 o, float margin) => NiMath.NearEqual(this, o, margin);
 
         public Translation3 Inversed => NiMath.Inverse(this);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => float4x4.Translate(translation);
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => float4x4.Translate(translation);
 
         public Translation3 Translated(float3 translation) => NiMath.Translate(translation, this);
         public RigidTransform3 Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
@@ -179,27 +179,27 @@ namespace Ni.Mathematics
         public static bool NearEqual(Translation3 a, UniformTransform3 b, float margin) => NearEqual(a.translation, b.translation, margin) && NearEqual(quaternion.identity, b.rotation, margin) && NearEqual(1, b.scale, margin);
         public static bool NearEqual(Translation3 a, NonUniformTransform3 b, float margin) => NearEqual(a.translation, b.translation, margin) && NearEqual(quaternion.identity, b.rotation, margin) && NearEqual((float3)1, b.scale, margin);
         public static bool NearEqual(Translation3 a, Matrix3x3Transform3 b, float margin) => NearEqual(a.translation, float3.zero, margin) && NearEqual(float3x3.identity, b.matrix, margin);
-        public static bool NearEqual(Translation3 a, Matrix4x4Transform3 b, float margin) => NearEqual(a.translation, b.translation3, margin) && NearEqual(a.ToMatrix4x4Transform, b, margin);
+        public static bool NearEqual(Translation3 a, Matrix4x4Transform3 b, float margin) => NearEqual(a.translation, b.translation3, margin) && NearEqual(a.ToMatrix4x4Transform3, b, margin);
 
         public static Translation3 Inverse(Translation3 o) => new Translation3(-o.translation);
 
         public static Translation3 Translate(float3 translation, Translation3 o) => new Translation3(translation + o.translation);
         public static RigidTransform3 Rotate(quaternion rotation, Translation3 o) => new RigidTransform3(Rotate(rotation, o.translation), rotation);
-        public static Matrix4x4Transform3 Shear(float3 shear, Translation3 o) => math.mul(Matrix4x4Transform3.Shearing(shear), o.ToMatrix4x4Transform);
+        public static Matrix4x4Transform3 Shear(float3 shear, Translation3 o) => math.mul(Matrix4x4Transform3.Shearing(shear), o.ToMatrix4x4Transform3);
         public static UniformTransform3 Scale(float scale, Translation3 o) => new UniformTransform3(scale * o.translation, quaternion.identity, scale);
         public static NonUniformTransform3 Scale(float3 scale, Translation3 o) => new NonUniformTransform3(scale * o.translation, quaternion.identity, scale);
         public static Translation3 Translate(Translation3 o, float3 translation) => new Translation3(o.translation + translation);
         public static RigidTransform3 Rotate(Translation3 o, quaternion rotation) => new RigidTransform3(o.translation, rotation);
-        public static Matrix4x4Transform3 Shear(Translation3 o, float3 shear) => math.mul(o.ToMatrix4x4Transform, Matrix4x4Transform3.Shearing(shear));
+        public static Matrix4x4Transform3 Shear(Translation3 o, float3 shear) => math.mul(o.ToMatrix4x4Transform3, Matrix4x4Transform3.Shearing(shear));
         public static UniformTransform3 Scale(Translation3 o, float scale) => new UniformTransform3(o.translation, quaternion.identity, scale);
         public static NonUniformTransform3 Scale(Translation3 o, float3 scale) => new NonUniformTransform3(o.translation, quaternion.identity, scale);
         public static Translation3 Translate(Translation3 a, Translation3 b) => new Translation3(a.translation + b.translation);
         public static RigidTransform3 Rotate(Rotation3Q rotation, Translation3 o) => new RigidTransform3(Rotate(rotation, o.translation), rotation);
-        public static Matrix4x4Transform3 Shear(ShearXY3 shear, Translation3 o) => math.mul(shear.ToMatrix4x4Transform, o.ToMatrix4x4Transform);
+        public static Matrix4x4Transform3 Shear(ShearXY3 shear, Translation3 o) => math.mul(shear.ToMatrix4x4Transform3, o.ToMatrix4x4Transform3);
         public static UniformTransform3 Scale(Scale1 scale, Translation3 o) => new UniformTransform3(scale.scale * o.translation, quaternion.identity, scale.scale);
         public static NonUniformTransform3 Scale(Scale3 scale, Translation3 o) => new NonUniformTransform3(scale.scale * o.translation, quaternion.identity, scale.scale);
         public static RigidTransform3 Rotate(Translation3 o, Rotation3Q rotation) => Rotate(o, rotation.rotation);
-        public static Matrix4x4Transform3 Shear(Translation3 o, ShearXY3 shear) => math.mul(o.ToMatrix4x4Transform, shear.ToMatrix4x4Transform);
+        public static Matrix4x4Transform3 Shear(Translation3 o, ShearXY3 shear) => math.mul(o.ToMatrix4x4Transform3, shear.ToMatrix4x4Transform3);
         public static UniformTransform3 Scale(Translation3 o, Scale1 scale) => Scale(o, scale.scale);
         public static NonUniformTransform3 Scale(Translation3 o, Scale3 scale) => Scale(o, scale.scale);
 
@@ -222,7 +222,7 @@ namespace Ni.Mathematics
         public static Aabb3C Mul(Translation3 a, Aabb3C b) => Mathematics.Aabb3C.TS(a.translation + b.translation3, b.scale3);
         public static Aabb3S Mul(Translation3 a, Aabb3S b) => Mathematics.Aabb3S.TS(a.translation + b.translation3, b.scale3);
         public static Obb3T Mul(Translation3 a, Obb3T b) => Mul(a, b.NonUniformTransform);
-        public static Obb3M Mul(Translation3 a, Obb3M b) => Mul(a, b.ToMatrix4x4Transform);
+        public static Obb3M Mul(Translation3 a, Obb3M b) => Mul(a, b.ToMatrix4x4Transform3);
         public static Ray3 Mul(Translation3 a, ProjectionAxis3x1 b) => new Ray3(a, b);
         public static Translation3 Div(Translation3 a, Translation3 b) => Translate(Inverse(a), b);
         public static RigidTransform3 Div(Translation3 a, Rotation3Q b) => Rotate(Inverse(a), b);

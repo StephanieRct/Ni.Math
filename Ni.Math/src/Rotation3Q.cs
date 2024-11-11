@@ -74,6 +74,10 @@ namespace Ni.Mathematics
         quaternion IRotation3QRW.rotation3 { get => rotation; set => rotation = value; }
         quaternion IRotation3Q.rotation3 => rotation;
         quaternion IRotation3QW.rotation3 { set => rotation = value; }
+        public float x { get => rotation.value.x; set => rotation.value.x = value; }
+        public float y { get => rotation.value.y; set => rotation.value.y = value; }
+        public float z { get => rotation.value.z; set => rotation.value.z = value; }
+        public float w { get => rotation.value.w; set => rotation.value.w = value; }
         public override string ToString() => $"{nameof(Rotation3Q)}({rotation.value.x}, {rotation.value.y}, {rotation.value.z}, {rotation.value.w})";
         
         public bool Equals(Rotation3Q o) => NiMath.Equal(this, o);
@@ -89,8 +93,8 @@ namespace Ni.Mathematics
         public bool NearEquals(Matrix4x4Transform3 o, float margin) => NiMath.NearEqual(this, o, margin);
 
         public Rotation3Q Inversed => NiMath.Inverse(this);
-        public Matrix3x3Transform3 ToMatrix3x3Transform => new float3x3(rotation);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => new float4x4(rotation, float3.zero);
+        public Matrix3x3Transform3 ToMatrix3x3Transform3 => new float3x3(rotation);
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => new float4x4(rotation, float3.zero);
 
 
         public RigidTransform3 Translated(float3 translation) => NiMath.Translate(translation, this);
@@ -166,8 +170,8 @@ namespace Ni.Mathematics
         public static bool NearEqual(Rotation3Q a, RigidTransform3 b, float margin) => NearEqual(float3.zero, b.translation, margin) && NearEqual(a.rotation, b.rotation, margin);
         public static bool NearEqual(Rotation3Q a, UniformTransform3 b, float margin) => NearEqual(float3.zero, b.translation, margin) && NearEqual(a.rotation, b.rotation, margin) && NearEqual(1, b.scale, margin);
         public static bool NearEqual(Rotation3Q a, NonUniformTransform3 b, float margin) => NearEqual(float3.zero, b.translation, margin) && NearEqual(a.rotation, b.rotation, margin) && NearEqual((float3)1, b.scale, margin);
-        public static bool NearEqual(Rotation3Q a, Matrix3x3Transform3 b, float margin) => NearEqual(a.ToMatrix3x3Transform, b, margin);
-        public static bool NearEqual(Rotation3Q a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform, b, margin);
+        public static bool NearEqual(Rotation3Q a, Matrix3x3Transform3 b, float margin) => NearEqual(a.ToMatrix3x3Transform3, b, margin);
+        public static bool NearEqual(Rotation3Q a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform3, b, margin);
 
         public static Rotation3Q Inverse(Rotation3Q o) => new Rotation3Q(math.inverse(o.rotation));
 
@@ -213,7 +217,7 @@ namespace Ni.Mathematics
         public static Obb3T Mul(Rotation3Q a, Aabb3C b) => new NonUniformTransform3(Transform(a, b.translation3), a, b.scale3);
         public static Obb3T Mul(Rotation3Q a, Aabb3S b) => new NonUniformTransform3(Transform(a, b.translation3), a, b.scale3);
         public static Obb3T Mul(Rotation3Q a, Obb3T b) => Mul(a, b.NonUniformTransform);
-        public static Obb3M Mul(Rotation3Q a, Obb3M b) => Mul(a, b.ToMatrix4x4Transform);
+        public static Obb3M Mul(Rotation3Q a, Obb3M b) => Mul(a, b.ToMatrix4x4Transform3);
 
         public static RigidTransform3 Div(Rotation3Q a, Translation3 b) => Translate(Inverse(a), b.translation);
         public static Rotation3Q Div(Rotation3Q a, Rotation3Q b) => Rotate(Inverse(a), b);
