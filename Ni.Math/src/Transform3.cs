@@ -143,12 +143,12 @@ namespace Ni.Mathematics
 
     public interface IToMatrix3x3Transform
     {
-        Matrix3x3Transform3 ToMatrix3x3Transform { get; }
+        Matrix3x3Transform3 ToMatrix3x3Transform3 { get; }
     }
 
     public interface IToMatrix4x4Transform
     {
-        Matrix4x4Transform3 ToMatrix4x4Transform { get; }
+        Matrix4x4Transform3 ToMatrix4x4Transform3 { get; }
     }
 
     public interface ITransform3Common :
@@ -290,17 +290,7 @@ namespace Ni.Mathematics
         public static float3 Transform(float3x3 transform, float3 o) => math.mul(transform, o);
         public static float3 Transform(float4x4 transform, float3 o) => math.transform(transform, o);
 
-        public static RigidTransform3 ToRigidTransform(this Transform transform) => new RigidTransform3(transform.position, transform.rotation);
-        public static UniformTransform3 ToUniformTransform(this Transform transform) => new UniformTransform3(transform.position, transform.rotation, transform.lossyScale.x);
-        public static NonUniformTransform3 ToNonUniformTransform(this Transform transform) => new NonUniformTransform3(transform.position, transform.rotation, transform.lossyScale);
-        public static float4x4 ToFloat4x4(this Transform transform) => float4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
-        public static Matrix4x4Transform3 ToMatrix4x4Transform3(this Transform transform) => Matrix4x4Transform3.TRS(transform.position, transform.rotation, transform.lossyScale);
-
-        public static RigidTransform3 LocalToRigidTransform(this Transform transform) => new RigidTransform3(transform.localPosition, transform.localRotation);
-        public static UniformTransform3 LocalToUniformTransform(this Transform transform) => new UniformTransform3(transform.localPosition, transform.localRotation, transform.localScale.x);
-        public static NonUniformTransform3 LocalToNonUniformTransform(this Transform transform) => new NonUniformTransform3(transform.localPosition, transform.localRotation, transform.localScale);
-        public static float4x4 LocalToFloat4x4(this Transform transform) => float4x4.TRS(transform.localPosition, transform.localRotation, transform.localScale);
-        public static Matrix4x4Transform3 LocalToMatrix4x4Transform3(this Transform transform) => Matrix4x4Transform3.TRS(transform.localPosition, transform.localRotation, transform.localScale);
+        public static Matrix4x4Transform3 GetLocalMatrix4x4Transform3(this Transform transform) => Matrix4x4Transform3.TRS(transform.localPosition, transform.localRotation, transform.localScale);
 
         public static float3 QuaternionToEulerXYZ(quaternion rotation)
         {
