@@ -38,9 +38,9 @@ namespace Ni.Mathematics
         public static Aabb3M GetAabb3M(this UnityBounds bounds) => (Aabb3M)new Aabb3C(bounds.center, bounds.extents);
         public static Aabb3S GetAabb3S(this UnityBounds bounds) => (Aabb3S)new Aabb3C(bounds.center, bounds.extents);
         public static Aabb3C GetAabb3C(this UnityBounds bounds) => new Aabb3C(bounds.center, bounds.extents);
-        public static Aabb3M GetLocalAabb3M(this UnityBoxCollider o) => GetAabb3M(o.bounds);
-        public static Aabb3S GetLocalAabb3S(this UnityBoxCollider o) => GetAabb3S(o.bounds);
-        public static Aabb3C GetLocalAabb3C(this UnityBoxCollider o) => GetAabb3C(o.bounds);
+        public static Aabb3M GetLocalAabb3M(this UnityBoxCollider o) => (Aabb3M)new Aabb3C(o.center, o.size * 0.5f);
+        public static Aabb3S GetLocalAabb3S(this UnityBoxCollider o) => (Aabb3S)new Aabb3C(o.center, o.size * 0.5f);
+        public static Aabb3C GetLocalAabb3C(this UnityBoxCollider o) => new Aabb3C(o.center, o.size * 0.5f);
         public static Obb3T GetWorldObb3T(this UnityBoxCollider o) => NiMath.Mul(o.transform, GetAabb3C(o.bounds));
 
 
