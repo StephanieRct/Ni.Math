@@ -59,6 +59,13 @@ namespace Ni.Mathematics
             extent = scale.scale * .5f;
             center = translation.translation + extent;
         }
+        public Aabb3C(LineSegment3 o)
+        {
+            var min = math.min(o.a, o.b);
+            extent = (math.max(o.a, o.b) - min) * 0.5f;
+            center = min + extent;
+        }
+
 
         public Aabb3C(UnityBounds o)
         {

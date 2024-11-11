@@ -59,6 +59,11 @@ namespace Ni.Mathematics
             min = translation.translation;
             max = min + scale.scale;
         }
+        public Aabb3M(LineSegment3 o)
+        {
+            min = math.min(o.a, o.b);
+            max = math.max(o.a, o.b);
+        }
 
         public Aabb3M(UnityBounds o)
         {
