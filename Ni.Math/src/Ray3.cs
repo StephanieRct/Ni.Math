@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using UnityRay3 = UnityEngine.Ray;
 
 namespace Ni.Mathematics
 {
@@ -58,14 +59,14 @@ namespace Ni.Mathematics
             projectionAxis = direction.vector;
         }
 
-        public Ray3(UnityEngine.Ray ray)
+        public Ray3(UnityRay3 ray)
         {
             translation = ray.origin;
             projectionAxis = ray.direction;
         }
 
-        public static implicit operator Ray3(UnityEngine.Ray ray) => new Ray3(ray);
-        public static implicit operator UnityEngine.Ray(Ray3 ray) => new UnityEngine.Ray(ray.origin, ray.direction);
+        public static implicit operator Ray3(UnityRay3 ray) => new Ray3(ray);
+        public static implicit operator UnityRay3(Ray3 ray) => new UnityRay3(ray.origin, ray.direction);
         public static Ray3 Identity => new Ray3(Translation3.Identity, ProjectionAxis3x1.Identity);
 
         /// <summary>
