@@ -51,10 +51,10 @@ namespace Ni.Mathematics.Tests
         public static readonly Aabb3S Aabb3S1 = new Aabb3S(Aabb3S1_Min, Aabb3S1_Size);
 
 
-        public static readonly float4x4 M4Aabb3S0 = Aabb3S0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4Aabb3S1 = Aabb3S1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4Aabb3Si0 = math.inverse(Aabb3S0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4Aabb3Si1 = math.inverse(Aabb3S1.ToMatrix4x4Transform);
+        public static readonly float4x4 M4Aabb3S0 = Aabb3S0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4Aabb3S1 = Aabb3S1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4Aabb3Si0 = math.inverse(Aabb3S0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4Aabb3Si1 = math.inverse(Aabb3S1.ToMatrix4x4Transform3);
 
 
         public static readonly float3 Aabb3S0_T = Aabb3S0_Min;

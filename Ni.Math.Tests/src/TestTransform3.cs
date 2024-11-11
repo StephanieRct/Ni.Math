@@ -142,50 +142,50 @@ namespace Ni.Mathematics.Tests
         public static readonly float4 M40C2 = M4T0.matrix.c2;
         public static readonly float4 M40C3 = M4T0.matrix.c3;
 
-        public static readonly float4x4 M4TT0 = TT0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4RQT0 = RQT0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4RET0 = RET0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4UST0 = UST0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4NUST0 = NUST0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4RT0 = RT0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4UT0 = UT0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4NUT0 = NUT0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4M3T0 = M3T0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4M4T0 = M4T0.ToMatrix4x4Transform;
+        public static readonly float4x4 M4TT0 = TT0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4RQT0 = RQT0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4RET0 = RET0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4UST0 = UST0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4NUST0 = NUST0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4RT0 = RT0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4UT0 = UT0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4NUT0 = NUT0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4M3T0 = M3T0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4M4T0 = M4T0.ToMatrix4x4Transform3;
 
-        public static readonly float4x4 M4TT1 = TT1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4RQT1 = RQT1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4RET1 = RET1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4UST1 = UST1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4NUST1 = NUST1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4RT1 = RT1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4UT1 = UT1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4NUT1 = NUT1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4M3T1 = M3T1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4M4T1 = M4T1.ToMatrix4x4Transform;
+        public static readonly float4x4 M4TT1 = TT1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4RQT1 = RQT1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4RET1 = RET1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4UST1 = UST1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4NUST1 = NUST1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4RT1 = RT1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4UT1 = UT1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4NUT1 = NUT1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4M3T1 = M3T1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4M4T1 = M4T1.ToMatrix4x4Transform3;
 
 
-        public static readonly float4x4 M4TTi0 = math.inverse(TT0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4RQTi0 = math.inverse(RQT0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4RETi0 = math.inverse(RET0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4USTi0 = math.inverse(UST0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4NUSTi0 = math.inverse(NUST0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4RTi0 = math.inverse(RT0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4UTi0 = math.inverse(UT0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4NUTi0 = math.inverse(NUT0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4M3Ti0 = math.inverse(M3T0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4M4Ti0 = math.inverse(M4T0.ToMatrix4x4Transform);
+        public static readonly float4x4 M4TTi0 = math.inverse(TT0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4RQTi0 = math.inverse(RQT0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4RETi0 = math.inverse(RET0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4USTi0 = math.inverse(UST0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4NUSTi0 = math.inverse(NUST0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4RTi0 = math.inverse(RT0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4UTi0 = math.inverse(UT0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4NUTi0 = math.inverse(NUT0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4M3Ti0 = math.inverse(M3T0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4M4Ti0 = math.inverse(M4T0.ToMatrix4x4Transform3);
 
-        public static readonly float4x4 M4TTi1 = math.inverse(TT1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4RQTi1 = math.inverse(RQT1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4RETi1 = math.inverse(RET1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4USTi1 = math.inverse(UST1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4NUSTi1 = math.inverse(NUST1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4RTi1 = math.inverse(RT1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4UTi1 = math.inverse(UT1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4NUTi1 = math.inverse(NUT1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4M3Ti1 = math.inverse(M3T1.ToMatrix4x4Transform);
-        public static readonly float4x4 M4M4Ti1 = math.inverse(M4T1.ToMatrix4x4Transform);
+        public static readonly float4x4 M4TTi1 = math.inverse(TT1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4RQTi1 = math.inverse(RQT1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4RETi1 = math.inverse(RET1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4USTi1 = math.inverse(UST1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4NUSTi1 = math.inverse(NUST1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4RTi1 = math.inverse(RT1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4UTi1 = math.inverse(UT1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4NUTi1 = math.inverse(NUT1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4M3Ti1 = math.inverse(M3T1.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4M4Ti1 = math.inverse(M4T1.ToMatrix4x4Transform3);
 
         public static readonly float4x4 M4Translation = float4x4.Translate(Translation);
         public static readonly float4x4 M4Scale1 = float4x4.Scale(Scale1);
@@ -213,7 +213,7 @@ namespace Ni.Mathematics.Tests
         public int Test<TTransform>(string operation, TTransform transform, float4x4 expected)
             where TTransform : IToMatrix4x4Transform
         {
-            var result4x4 = (float4x4)transform.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)transform.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"{operation}. {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -231,7 +231,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, ITranslated<TTransform, float3>
         {
             var result = transform.Translated(translation);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Translated(float3). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -241,7 +241,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Translated(translation);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Translated(float3). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -251,7 +251,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, IRotated<TTransform, quaternion>
         {
             var result = transform.Rotated(rotation);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Rotated(quaternion). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -262,7 +262,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Rotated(rotation);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Rotated(quaternion). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -272,7 +272,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, IScaled<TTransform, float>
         {
             var result = transform.Scaled(scale);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Scaled(float). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -283,7 +283,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Scaled(scale);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Scaled(float). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -293,7 +293,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, IScaled<TTransform, float3>
         {
             var result = transform.Scaled(scale);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Scaled(float3). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -304,7 +304,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Scaled(scale);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Scaled(float3). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -314,7 +314,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, IInvertible<TTransform>
         {
             var result = transform.Inversed;
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Inversed. {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -325,7 +325,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Inversed;
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Inversed. {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -335,7 +335,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, ITranslate<TTransform, float3>
         {
             var result = transform.Translate(translation);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Translate(t). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -346,7 +346,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Translate(translation);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Translate(t). {typeof(TTransform).Name}. Result transform must be equal to expectation.\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -356,7 +356,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, IRotate<TTransform, quaternion>
         {
             var result = transform.Rotate(rotation);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Rotate(r). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -367,7 +367,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Rotate(rotation);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Rotate(r). {typeof(TTransform).Name}. Result transform must be equal to expectation.\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -377,7 +377,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, IScale<TTransform, float>
         {
             var result = transform.Scale(scale);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Scale(s). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -388,7 +388,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Scale(scale);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.WithScale(s). {typeof(TTransform).Name}. Result transform must be equal to expectation.\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -398,7 +398,7 @@ namespace Ni.Mathematics.Tests
             where TTransform : IToMatrix4x4Transform, IScale<TTransform, float3>
         {
             var result = transform.Scale(scale);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Scale(t). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -409,7 +409,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Scale(scale);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"T' == T.Scale(t). {typeof(TTransform).Name}. Result transform must be equal to expectation.\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -429,7 +429,7 @@ namespace Ni.Mathematics.Tests
             where TPrimitive : IToMatrix4x4Transform
         {
             var result = transform.Transform(primitive);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"x' == T.Transform({typeof(TPrimitive).Name} x). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -449,7 +449,7 @@ namespace Ni.Mathematics.Tests
             where TPrimitive : IToMatrix4x4Transform
         {
             var result = transform.Untransform(primitive);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"x' == T.Untransform({typeof(TPrimitive).Name} x). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -469,7 +469,7 @@ namespace Ni.Mathematics.Tests
             where TPrimitive : IToMatrix4x4Transform
         {
             var result = transform.Mul(primitive);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"x' == T.Mul({typeof(TPrimitive).Name} x). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -480,7 +480,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Mul(primitive);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"x' == T.Mul({typeof(TPrimitive).Name} x). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -500,7 +500,7 @@ namespace Ni.Mathematics.Tests
             where TPrimitive : IToMatrix4x4Transform
         {
             var result = transform.Div(primitive);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"x' == T.Div({typeof(TPrimitive).Name} x). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
@@ -511,7 +511,7 @@ namespace Ni.Mathematics.Tests
             where TPrime : IToMatrix4x4Transform
         {
             var result = transform.Div(primitive);
-            var result4x4 = (float4x4)result.ToMatrix4x4Transform;
+            var result4x4 = (float4x4)result.ToMatrix4x4Transform3;
             if (!AreEqual(result4x4, expected, 0.0001f))
                 Assert.Fail($"x' == T.Div({typeof(TPrimitive).Name} x). {typeof(TTransform).Name}. Result transform must be equal to expectation\ne: {expected}\nr: {result4x4}");
             return 0;
