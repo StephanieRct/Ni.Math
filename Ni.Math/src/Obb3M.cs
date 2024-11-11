@@ -75,9 +75,14 @@ namespace Ni.Mathematics
 
         public static implicit operator float4x4(Obb3M o) => o.Matrix4x4Transform;
         public static implicit operator Obb3M(float4x4 o) => new Obb3M(o);
-        public static implicit operator Matrix4x4Transform3(Obb3M o) => o.Matrix4x4Transform;
+
         public static implicit operator Obb3M(Matrix4x4Transform3 o) => new Obb3M(o);
-        public static explicit operator Obb3M(Obb3T o) => new Obb3M(o.NonUniformTransform.ToMatrix4x4Transform);
+
+        public static explicit operator Obb3M(Aabb3M o) => new Matrix4x4Transform3(o);
+        public static explicit operator Obb3M(Aabb3S o) => new Matrix4x4Transform3(o);
+        public static explicit operator Obb3M(Aabb3C o) => new Matrix4x4Transform3(o);
+        public static explicit operator Obb3M(Obb3T o) => new Obb3M(o.ToMatrix4x4Transform3);
+
         public static readonly Obb3M Identity = new Obb3M(Matrix4x4Transform3.Identity);
         public static readonly Obb3M Origin = new Obb3M(new float4x4(1.0f, 0.0f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, -0.5f, 0.0f, 0.0f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f));
         public static Obb3M Translating(float3 translation) => new Matrix4x4Transform3(float4x4.Translate(translation));
@@ -126,7 +131,7 @@ namespace Ni.Mathematics
         public bool NearEquals(Matrix4x4Transform3 other, float margin) => NiMath.NearEqual(this, other, margin);
 
         public Obb3M Inversed => NiMath.Inverse(this);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => Matrix4x4Transform;
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => Matrix4x4Transform;
 
         public Obb3M Translated(float3 translation) => NiMath.Translate(translation, this);
         public Obb3M Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
