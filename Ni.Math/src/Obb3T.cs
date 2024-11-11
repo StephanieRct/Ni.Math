@@ -1,5 +1,8 @@
 using System;
 using Unity.Mathematics;
+using UnityBounds = UnityEngine.Bounds;
+using UnityBoxCollider = UnityEngine.BoxCollider;
+using UnityTransform3 = UnityEngine.Transform;
 
 namespace Ni.Mathematics
 {
@@ -60,6 +63,8 @@ namespace Ni.Mathematics
         public Obb3T(Aabb3M aabb) => NonUniformTransform = new NonUniformTransform3(aabb.translation3, quaternion.identity, aabb.scale3);
         public Obb3T(Aabb3S aabb) => NonUniformTransform = new NonUniformTransform3(aabb.translation3, quaternion.identity, aabb.scale3);
         public Obb3T(Aabb3C aabb) => NonUniformTransform = new NonUniformTransform3(aabb.translation3, quaternion.identity, aabb.scale3);
+        public Obb3T(UnityBounds o) => NonUniformTransform = new Aabb3C(o).ToNonUniformTransform3;
+        public Obb3T(UnityBoxCollider o) => NonUniformTransform = NiMath.Mul(o.transform, new Aabb3C(o.bounds));
 
         public static readonly Obb3T Identity = new Obb3T(NonUniformTransform3.Identity);
         public static readonly Obb3T Origin = new Obb3T(new NonUniformTransform3(-0.5f, quaternion.identity, 1));
@@ -102,7 +107,27 @@ namespace Ni.Mathematics
 
         public Aabb3M Aabb3M
         {
-            get => new Aabb3M(NonUniformTransform.translation, NonUniformTransform.scale);
+            get => Aabb3M.TS(NonUniformTransform.translation, NonUniformTransform.scale);
+            set
+            {
+                NonUniformTransform.translation = value.translation3;
+                NonUniformTransform.scale = value.scale3;
+            }
+        }
+
+        public Aabb3S Aabb3S
+        {
+            get => Aabb3S.TS(NonUniformTransform.translation, NonUniformTransform.scale);
+            set
+            {
+                NonUniformTransform.translation = value.translation3;
+                NonUniformTransform.scale = value.scale3;
+            }
+        }
+
+        public Aabb3C Aabb3C
+        {
+            get => Aabb3C.TS(NonUniformTransform.translation, NonUniformTransform.scale);
             set
             {
                 NonUniformTransform.translation = value.translation3;
@@ -127,8 +152,8 @@ namespace Ni.Mathematics
 
         public Obb3M Inversed => NiMath.Inverse(this);
         public NonUniformTransform3 ToNonUniformTransform3 => new NonUniformTransform3(translation3, quaternion.identity, scale3);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => NonUniformTransform.ToMatrix4x4Transform;
-        public Obb3M ToObb3M => new Obb3M(NonUniformTransform.ToMatrix4x4Transform);
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => NonUniformTransform.ToMatrix4x4Transform3;
+        public Obb3M ToObb3M => new Obb3M(NonUniformTransform.ToMatrix4x4Transform3);
 
         public Obb3T Translated(float3 translation) => NiMath.Translate(translation, this);
         public Obb3T Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
@@ -205,7 +230,7 @@ namespace Ni.Mathematics
         public static bool NearEqual(Obb3T a, UniformTransform3 b, float margin) => NearEqual(a.translation3, b.translation, margin) && NearEqual(a.rotation3, b.rotation, margin) && NearEqual(a.scale3, (float3)b.scale, margin);
         public static bool NearEqual(Obb3T a, NonUniformTransform3 b, float margin) => NearEqual(a.translation3, b.translation, margin) && NearEqual(a.rotation3, b.rotation, margin) && NearEqual(a.scale3, b.scale, margin);
         public static bool NearEqual(Obb3T a, Matrix3x3Transform3 b, float margin) => NearEqual(a.translation3, float3.zero, margin) && NearEqual(new Matrix3x3Transform3(a.rotation3, a.scale3), b, margin);
-        public static bool NearEqual(Obb3T a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform, b, margin);
+        public static bool NearEqual(Obb3T a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform3, b, margin);
 
         public static Obb3M Inverse(Obb3T a) => new Obb3M(a.NonUniformTransform.Inversed);
 

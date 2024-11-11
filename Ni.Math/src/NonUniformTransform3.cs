@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using UnityTransform3 = UnityEngine.Transform;
 
 namespace Ni.Mathematics
 {
@@ -121,6 +122,14 @@ namespace Ni.Mathematics
             this.scale = scale.scale;
         }
 
+        public NonUniformTransform3(UnityTransform3 o)
+        {
+            translation = o.position;
+            rotation = o.rotation;
+            scale = o.lossyScale;
+        }
+
+        public static implicit operator NonUniformTransform3(UnityTransform3 o) => new NonUniformTransform3(o);
         public static explicit operator NonUniformTransform3(Translation3 o) => new NonUniformTransform3(o.translation, quaternion.identity, 1);
         public static explicit operator NonUniformTransform3(Rotation3Q o) => new NonUniformTransform3(float3.zero, o.rotation, 1);
         public static explicit operator NonUniformTransform3(Rotation3Euler o) => new NonUniformTransform3(float3.zero, o.rotation3, 1);
@@ -128,6 +137,10 @@ namespace Ni.Mathematics
         public static explicit operator NonUniformTransform3(RigidTransform3 o) => new NonUniformTransform3(o.translation, o.rotation, 1);
         public static explicit operator NonUniformTransform3(Matrix4x4Transform3 o) => new NonUniformTransform3(o.translation3, o.rotation3, o.scale3);
         public static explicit operator NonUniformTransform3(Matrix3x3Transform3 o) => new NonUniformTransform3(float3.zero, o.rotation3, o.scale3);
+        public static explicit operator NonUniformTransform3(Aabb3M o) => new NonUniformTransform3(o.translation3, quaternion.identity, o.scale3);
+        public static explicit operator NonUniformTransform3(Aabb3S o) => new NonUniformTransform3(o.translation3, quaternion.identity, o.scale3);
+        public static explicit operator NonUniformTransform3(Aabb3C o) => new NonUniformTransform3(o.translation3, quaternion.identity, o.scale3);
+        public static explicit operator NonUniformTransform3(Obb3T o) => o.NonUniformTransform;
 
         public static readonly NonUniformTransform3 Identity = new NonUniformTransform3(float3.zero, quaternion.identity, 1);
         public static NonUniformTransform3 Translating(float3 translation) => new NonUniformTransform3(translation, quaternion.identity, 1);
@@ -198,7 +211,7 @@ namespace Ni.Mathematics
         public bool NearEquals(Matrix4x4Transform3 other, float margin) => NiMath.NearEqual(this, other, margin);
 
         public Matrix4x4Transform3 Inversed => NiMath.Inverse(this);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => float4x4.TRS(translation, rotation, scale);
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => float4x4.TRS(translation, rotation, scale);
 
         public NonUniformTransform3 Translated(float3 translation) => NiMath.Translate(translation, this);
         public NonUniformTransform3 Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
@@ -274,7 +287,7 @@ namespace Ni.Mathematics
         public static bool NearEqual(NonUniformTransform3 a, UniformTransform3 b, float margin) => NearEqual(a.translation, b.translation, margin) && NearEqual(a.rotation, b.rotation, margin) && NearEqual(a.scale, (float3)b.scale, margin);
         public static bool NearEqual(NonUniformTransform3 a, NonUniformTransform3 b, float margin) => NearEqual(a.translation, b.translation, margin) && NearEqual(a.rotation, b.rotation, margin) && NearEqual(a.scale, b.scale, margin);
         public static bool NearEqual(NonUniformTransform3 a, Matrix3x3Transform3 b, float margin) => NearEqual(a.translation, float3.zero, margin) && NearEqual(new Matrix3x3Transform3(a.rotation, a.scale), b, margin);
-        public static bool NearEqual(NonUniformTransform3 a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform, b, margin);
+        public static bool NearEqual(NonUniformTransform3 a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform3, b, margin);
 
         public static Matrix4x4Transform3 Inverse(NonUniformTransform3 a) => math.inverse((Matrix4x4Transform3)a);
 
@@ -321,8 +334,8 @@ namespace Ni.Mathematics
         public static Obb3T Mul(NonUniformTransform3 a, Aabb3M b) => new NonUniformTransform3(Transform(a, b.translation3), a.rotation, a.scale * b.scale3); // Ta * Ra * S3a * Tb * S3b 
         public static Obb3T Mul(NonUniformTransform3 a, Aabb3C b) => new NonUniformTransform3(Transform(a, b.translation3), a.rotation, a.scale * b.scale3);
         public static Obb3T Mul(NonUniformTransform3 a, Aabb3S b) => new NonUniformTransform3(Transform(a, b.translation3), a.rotation, a.scale * b.scale3);
-        public static Obb3M Mul(NonUniformTransform3 a, Obb3T b) => Mul(a, b.ToMatrix4x4Transform);
-        public static Obb3M Mul(NonUniformTransform3 a, Obb3M b) => Mul(a, b.ToMatrix4x4Transform);
+        public static Obb3M Mul(NonUniformTransform3 a, Obb3T b) => Mul(a, b.ToMatrix4x4Transform3);
+        public static Obb3M Mul(NonUniformTransform3 a, Obb3M b) => Mul(a, b.ToMatrix4x4Transform3);
 
         public static Matrix4x4Transform3 Div(NonUniformTransform3 a, Translation3 b) => Scale(Inverse(a.Scale3).scale, Rotate(Inverse(a.rotation), Translate(-a.translation, b)));
 
