@@ -18,7 +18,7 @@ namespace Ni.Mathematics
     ///    
     /// </summary>
     [Serializable]
-    public struct ProjectionAxis1x3 : IUniformScaleRW,
+    public struct ProjectionAxis1x3 : IScale1RW,
         IScaled<ProjectionAxis1x3, float>,
         IScale<ProjectionAxis1x3, float>,
         IScale<ProjectionAxis1x3, float3>
@@ -33,7 +33,8 @@ namespace Ni.Mathematics
         public Scale1 Scale1 { get => new Scale1(scale1); set => scale1 = value.scale; }
         public ProjectionAxis3x1 Inverse => new ProjectionAxis3x1(axis);
 
-        public ProjectionAxis1x3 Scaled(float o) => NiMath.Scaled(o, this);
+        public ProjectionAxis1x3 Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
+        public ProjectionAxis1x3 Scaled(float o) => NiMath.Scale(o, this);
         public ProjectionAxis1x3 Scale(float o) => NiMath.Scale(this, o);
         public ProjectionAxis1x3 Scale(float3 o) => NiMath.Scale(this, o);
 
@@ -46,11 +47,13 @@ namespace Ni.Mathematics
         public static bool Equal(ProjectionAxis1x3 a, ProjectionAxis1x3 b) => Equal(a.axis, b.axis);
         public static bool NearEqual(ProjectionAxis1x3 a, ProjectionAxis1x3 b, float margin) => NearEqual(a.axis, b.axis, margin);
 
-        public static ProjectionAxis1x3 Scaled(float a, ProjectionAxis1x3 b) => new ProjectionAxis1x3(b.axis / a);
+        public static ProjectionAxis1x3 Rotate(quaternion rotation, ProjectionAxis1x3 o) => new ProjectionAxis1x3(math.mul(rotation, o.axis));
+        public static ProjectionAxis1x3 Scale(float a, ProjectionAxis1x3 b) => new ProjectionAxis1x3(b.axis / a);
         public static ProjectionAxis1x3 Scale(ProjectionAxis1x3 a, float b) => new ProjectionAxis1x3(a.axis / b);
         public static ProjectionAxis1x3 Scale(ProjectionAxis1x3 a, float3 b) => new ProjectionAxis1x3(a.axis / b);
 
         public static float Transform(ProjectionAxis1x3 a, float3 b) => math.dot(b, a.axis) / math.dot(a.axis, a.axis);
-        public static float3 Untransform(ProjectionAxis1x3 a, float b) => a.axis * b; 
+        public static float3 Untransform(ProjectionAxis1x3 a, float b) => a.axis * b;
+
     }
 }

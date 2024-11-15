@@ -199,5 +199,6 @@ namespace Ni.Mathematics
             UnityEditor.AssemblyReloadEvents.beforeAssemblyReload -= Dispose;
 #endif
         }
+
     }
 }

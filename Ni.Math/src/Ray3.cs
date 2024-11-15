@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using UnityRay3 = UnityEngine.Ray;
 
 namespace Ni.Mathematics
 {
@@ -39,21 +40,33 @@ namespace Ni.Mathematics
             translation = origin;
             projectionAxis = direction;
         }
-        
+
+        public Ray3(float3 origin, Direction3 direction)
+        {
+            translation = origin;
+            projectionAxis = direction.vector;
+        }
+
         public Ray3(Translation3 translation, ProjectionAxis3x1 projection)
         {
             this.translation = translation.translation;
             projectionAxis = projection.axis;
         }
 
-        public Ray3(UnityEngine.Ray ray)
+        public Ray3(Translation3 translation, Direction3 direction)
+        {
+            this.translation = translation.translation;
+            projectionAxis = direction.vector;
+        }
+
+        public Ray3(UnityRay3 ray)
         {
             translation = ray.origin;
             projectionAxis = ray.direction;
         }
 
-        public static implicit operator Ray3(UnityEngine.Ray ray) => new Ray3(ray);
-        public static implicit operator UnityEngine.Ray(Ray3 ray) => new UnityEngine.Ray(ray.origin, ray.direction);
+        public static implicit operator Ray3(UnityRay3 ray) => new Ray3(ray);
+        public static implicit operator UnityRay3(Ray3 ray) => new UnityRay3(ray.origin, ray.direction);
         public static Ray3 Identity => new Ray3(Translation3.Identity, ProjectionAxis3x1.Identity);
 
         /// <summary>
@@ -73,6 +86,7 @@ namespace Ni.Mathematics
         float3 ITranslation3RW.translation3 { get => translation; set => translation = value; }
         float3 ITranslation3.translation3 => translation;
         float3 ITranslation3W.translation3 { set => translation = value; }
+        public float scale1 => Projection3x1.scale1;
         public bool Equals(Ray3 o) => NiMath.Equal(this, o);
         public bool NearEquals(Ray3 o, float margin) => NiMath.NearEqual(this, o, margin);
 
@@ -100,11 +114,40 @@ namespace Ni.Mathematics
         public Ray3 Mul(TranslationTransform1 translation) => NiMath.Mul(this, translation);
         public RayI3 Div(Translation3 translation) => NiMath.Div(this, translation);
 
+        
 
-        public bool Cast1(Aabb3M o, float maxDistance, out float t) => NiMath.Raycast1(this, o, maxDistance, out t);
-        public bool Cast1(Aabb3S o, float maxDistance, out float t) => NiMath.Raycast1(this, o, maxDistance, out t);
-        public bool Cast1(Aabb3C o, float maxDistance, out float t) => NiMath.Raycast1(this, o, maxDistance, out t);
-        public bool Cast1<T>(T o, float maxDistance, out float t) where T : ITransform<Ray3> => NiMath.Raycast1(this, o, maxDistance, out t);
+        public bool Cast(Aabb3M o, float maxDistance, out float t) => NiMath.IntersectBox(this, o, maxDistance, out t);
+        public bool Cast(Aabb3M o, float maxDistance, out float tIn, out float tOut) => NiMath.IntersectBox(this, o, maxDistance, out tIn, out tOut);
+        public bool Cast(Aabb3M o, float maxDistance, out float t, out Direction3 normal) => NiMath.IntersectBox(this, o, maxDistance, out t, out normal);
+        public bool Cast(Aabb3M o, float maxDistance, out float tIn, out Direction3 normalIn, out float tOut, out Direction3 normalOut) => NiMath.IntersectBox(this, o, maxDistance, out tIn, out normalIn, out tOut, out normalOut);
+        public bool Cast(Aabb3M o, float maxDistance, out float3 point) => NiMath.IntersectBox(this, o, maxDistance, out point);
+        public bool Cast(Aabb3M o, float maxDistance, out LineSegment3 intersection) => NiMath.IntersectBox(this, o, maxDistance, out intersection);
+        public bool Cast(Aabb3M o, float maxDistance, out Ray3 pointNormal) => NiMath.IntersectBox(this, o, maxDistance, out pointNormal);
+        public bool Cast(Aabb3M o, float maxDistance, out Ray3 pointNormalIn, out Ray3 pointNormalOut) => NiMath.IntersectBox(this, o, maxDistance, out pointNormalIn, out pointNormalOut);
+        public bool Cast(Aabb3S o, float maxDistance, out float t) => NiMath.IntersectBox(this, o, maxDistance, out t);
+        public bool Cast(Aabb3S o, float maxDistance, out float tIn, out float tOut) => NiMath.IntersectBox(this, o, maxDistance, out tIn, out tOut);
+        public bool Cast(Aabb3S o, float maxDistance, out float t, out Direction3 normal) => NiMath.IntersectBox(this, o, maxDistance, out t, out normal);
+        public bool Cast(Aabb3S o, float maxDistance, out float tIn, out Direction3 normalIn, out float tOut, out Direction3 normalOut) => NiMath.IntersectBox(this, o, maxDistance, out tIn, out normalIn, out tOut, out normalOut);
+        public bool Cast(Aabb3S o, float maxDistance, out float3 point) => NiMath.IntersectBox(this, o, maxDistance, out point);
+        public bool Cast(Aabb3S o, float maxDistance, out LineSegment3 intersection) => NiMath.IntersectBox(this, o, maxDistance, out intersection);
+        public bool Cast(Aabb3S o, float maxDistance, out Ray3 pointNormal) => NiMath.IntersectBox(this, o, maxDistance, out pointNormal);
+        public bool Cast(Aabb3S o, float maxDistance, out Ray3 pointNormalIn, out Ray3 pointNormalOut) => NiMath.IntersectBox(this, o, maxDistance, out pointNormalIn, out pointNormalOut);
+        public bool Cast(Aabb3C o, float maxDistance, out float t) => NiMath.IntersectBox(this, o, maxDistance, out t);
+        public bool Cast(Aabb3C o, float maxDistance, out float tIn, out float tOut) => NiMath.IntersectBox(this, o, maxDistance, out tIn, out tOut);
+        public bool Cast(Aabb3C o, float maxDistance, out float t, out Direction3 normal) => NiMath.IntersectBox(this, o, maxDistance, out t, out normal);
+        public bool Cast(Aabb3C o, float maxDistance, out float tIn, out Direction3 normalIn, out float tOut, out Direction3 normalOut) => NiMath.IntersectBox(this, o, maxDistance, out tIn, out normalIn, out tOut, out normalOut);
+        public bool Cast(Aabb3C o, float maxDistance, out float3 point) => NiMath.IntersectBox(this, o, maxDistance, out point);
+        public bool Cast(Aabb3C o, float maxDistance, out LineSegment3 intersection) => NiMath.IntersectBox(this, o, maxDistance, out intersection);
+        public bool Cast(Aabb3C o, float maxDistance, out Ray3 pointNormal) => NiMath.IntersectBox(this, o, maxDistance, out pointNormal);
+        public bool Cast(Aabb3C o, float maxDistance, out Ray3 pointNormalIn, out Ray3 pointNormalOut) => NiMath.IntersectBox(this, o, maxDistance, out pointNormalIn, out pointNormalOut);
+        public bool Cast<TBox>(TBox o, float maxDistance, out float t) where TBox : IBox3 => NiMath.IntersectBox(this, o, maxDistance, out t);
+        public bool Cast<TBox>(TBox o, float maxDistance, out float tIn, out float tOut) where TBox : IBox3 => NiMath.IntersectBox(this, o, maxDistance, out tIn, out tOut);
+        public bool Cast<TBox>(TBox o, float maxDistance, out float t, out Direction3 normal) where TBox : IBox3 => NiMath.IntersectBox(this, o, maxDistance, out t, out normal);
+        public bool Cast<TBox>(TBox o, float maxDistance, out float tIn, out Direction3 normalIn, out float tOut, out Direction3 normalOut) where TBox : IBox3 => NiMath.IntersectBox(this, o, maxDistance, out tIn, out normalIn, out tOut, out normalOut);
+        public bool Cast<TBox>(TBox o, float maxDistance, out float3 point) where TBox : IBox3 => NiMath.IntersectBox(this, o, maxDistance, out point);
+        public bool Cast<TBox>(TBox o, float maxDistance, out LineSegment3 intersection) where TBox : IBox3 => NiMath.IntersectBox(this, o, maxDistance, out intersection);
+        public bool Cast<TBox>(TBox o, float maxDistance, out Ray3 pointNormal) where TBox : IBox3 => NiMath.IntersectBox(this, o, maxDistance, out pointNormal);
+        public bool Cast<TBox>(TBox o, float maxDistance, out Ray3 pointNormalIn, out Ray3 pointNormalOut) where TBox : IBox3 => NiMath.IntersectBox(this, o, maxDistance, out pointNormalIn, out pointNormalOut);
     }
 
     public static partial class NiMath

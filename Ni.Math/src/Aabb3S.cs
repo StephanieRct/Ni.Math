@@ -1,5 +1,7 @@
 using System;
 using Unity.Mathematics;
+using UnityBounds = UnityEngine.Bounds;
+using UnityBoxCollider = UnityEngine.BoxCollider;
 
 namespace Ni.Mathematics
 {
@@ -7,15 +9,13 @@ namespace Ni.Mathematics
     /// Represent the sequence of transformations: Translation * NonUniformScale
     /// </summary>
     [Serializable]
-    public struct Aabb3S : ITransform3, ITranslation3RW, INonUniformScale3RW,
-        IEquatable<Aabb3S>,
-        INearEquatable<Aabb3S, float>,
+    public struct Aabb3S : ITranslation3RW, IScale3RW,
+        ITransform3<Aabb3S>,
+        //IShearableTransformable3<Aabb3S, Obb3M>,
+        IBox3<Aabb3S>,
         ITransformable3<Translation3, Aabb3S, Obb3T, Aabb3S, Aabb3S, Aabb3S, Obb3M, Aabb3S, Aabb3S>,
         IToNonUniformTransform3,
-        IToMatrix4x4Transform,
         IInvertible<Aabb3S>,
-        ITransform<float3>,
-        ITransform<Ray3>,
         IMultipliable<Translation3, Aabb3S>,
         IMultipliable<Rotation3Q, Obb3M>,
         IMultipliable<Scale1, Aabb3S>,
@@ -58,6 +58,24 @@ namespace Ni.Mathematics
         {
             min = translation.translation;
             size = scale.scale;
+        }
+        public Aabb3S(LineSegment3 o)
+        {
+            min = math.min(o.a, o.b);
+            size = math.max(o.a, o.b) - min;
+        }
+
+
+        public Aabb3S(UnityBounds o)
+        {
+            min = o.min;
+            size = o.size;
+        }
+
+        public Aabb3S(UnityBoxCollider o)
+        {
+            size = o.size;
+            min = (float3)o.center - size * 0.5f;
         }
 
         public static readonly Aabb3S Identity = new Aabb3S(float3.zero, 1);
@@ -126,7 +144,7 @@ namespace Ni.Mathematics
 
         public Aabb3S Inversed => NiMath.Inverse(this);
         public NonUniformTransform3 ToNonUniformTransform3 => new NonUniformTransform3(translation3, quaternion.identity, scale3);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => new Matrix4x4Transform3(translation3, float3x3.Scale(scale3));
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => new Matrix4x4Transform3(translation3, float3x3.Scale(scale3));
 
         public Aabb3S Translated(float3 translation) => NiMath.Translate(translation, this);
         public Obb3T Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
@@ -148,10 +166,17 @@ namespace Ni.Mathematics
         public Aabb3S Scale(Scale1 scale) => NiMath.Scale(this, scale);
         public Aabb3S Scale(Scale3 scale) => NiMath.Scale(this, scale);
 
-        public float3 Transform(float3 p) => NiMath.Transform(this, p);
-        public Ray3 Transform(Ray3 p) => NiMath.Transform(this, p);
-        public float3 Untransform(float3 p) => NiMath.Untransform(this, p);
-        public Ray3 Untransform(Ray3 p) => NiMath.Untransform(this, p);
+        public float3 Transform(float3 o) => NiMath.Transform(this, o);
+        public Direction3 Transform(Direction3 o) => NiMath.Transform(this, o);
+        public ProjectionAxis3x1 Transform(ProjectionAxis3x1 o) => NiMath.Transform(this, o);
+        public ProjectionAxis1x3 Transform(ProjectionAxis1x3 o) => NiMath.Transform(this, o);
+        public Ray3 Transform(Ray3 o) => NiMath.Transform(this, o);
+
+        public float3 Untransform(float3 o) => NiMath.Untransform(this, o);
+        public Direction3 Untransform(Direction3 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis3x1 Untransform(ProjectionAxis3x1 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis1x3 Untransform(ProjectionAxis1x3 o) => NiMath.Untransform(this, o);
+        public Ray3 Untransform(Ray3 o) => NiMath.Untransform(this, o);
 
         public Aabb3S Mul(Translation3 o) => NiMath.Mul(this, o);
         public Obb3M Mul(Rotation3Q o) => NiMath.Mul(this, o);
@@ -195,8 +220,8 @@ namespace Ni.Mathematics
         public static bool NearEqual(Aabb3S a, RigidTransform3 b, float margin) => NearEqual(a.translation3, b.translation, margin) && NearEqual(b.rotation, quaternion.identity, margin) && NearEqual(a.scale3, (float3)1, margin);
         public static bool NearEqual(Aabb3S a, UniformTransform3 b, float margin) => NearEqual(a.translation3, b.translation, margin) && NearEqual(b.rotation, quaternion.identity, margin) && NearEqual(a.scale3, (float3)b.scale, margin);
         public static bool NearEqual(Aabb3S a, NonUniformTransform3 b, float margin) => NearEqual(a.translation3, b.translation, margin) && NearEqual(b.rotation, quaternion.identity, margin) && NearEqual(a.scale3, (float3)b.scale, margin);
-        public static bool NearEqual(Aabb3S a, Matrix3x3Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform, b, margin);
-        public static bool NearEqual(Aabb3S a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform, b, margin);
+        public static bool NearEqual(Aabb3S a, Matrix3x3Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform3, b, margin);
+        public static bool NearEqual(Aabb3S a, Matrix4x4Transform3 b, float margin) => NearEqual(a.ToMatrix4x4Transform3, b, margin);
 
         public static Aabb3S Inverse(Aabb3S a)
         {
@@ -225,19 +250,25 @@ namespace Ni.Mathematics
         public static Aabb3S Scale(Aabb3S o, Scale3 scale) => Mul(o, (Scale3)scale);
 
         public static float3 Transform(Aabb3S a, float3 p) => a.min + a.size * p;
+        public static Direction3 Transform(Aabb3S a, Direction3 b) => Direction3.Direction(Scale(a.scale3, b.vector));
+        public static ProjectionAxis3x1 Transform(Aabb3S a, ProjectionAxis3x1 b) => new ProjectionAxis3x1(Scale(a.scale3, b.axis));
+        public static ProjectionAxis1x3 Transform(Aabb3S a, ProjectionAxis1x3 b) => new ProjectionAxis1x3(Scale(a.scale3, b.axis));
         public static Ray3 Transform(Aabb3S a, Ray3 b) => Transform(a.Translation3, Transform(a.Scale3, b));
         public static float3 Untransform(Aabb3S a, float3 p) => (p - a.min) * math.rcp(a.size);
+        public static Direction3 Untransform(Aabb3S a, Direction3 b) => Transform(Inverse(a), b);
+        public static ProjectionAxis3x1 Untransform(Aabb3S a, ProjectionAxis3x1 b) => Transform(Inverse(a), b);
+        public static ProjectionAxis1x3 Untransform(Aabb3S a, ProjectionAxis1x3 b) => Transform(Inverse(a), b);
         public static Ray3 Untransform(Aabb3S a, Ray3 b) => Transform(Inverse(a), b);
 
         public static Aabb3S Mul(Aabb3S a, Translation3 b) => new Aabb3S(a.Transform(b.translation), a.size);
-        public static Obb3M Mul(Aabb3S a, Rotation3Q b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
+        public static Obb3M Mul(Aabb3S a, Rotation3Q b) => new Obb3M(Mul(a.ToMatrix4x4Transform3, b));
         public static Aabb3S Mul(Aabb3S a, Scale1 b) => new Aabb3S(a.min, a.size * b.scale);
         public static Aabb3S Mul(Aabb3S a, Scale3 b) => new Aabb3S(a.min, a.size * b.scale);
-        public static Obb3M Mul(Aabb3S a, RigidTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
-        public static Obb3M Mul(Aabb3S a, UniformTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
-        public static Obb3M Mul(Aabb3S a, NonUniformTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
-        public static Obb3M Mul(Aabb3S a, Matrix3x3Transform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
-        public static Obb3M Mul(Aabb3S a, Matrix4x4Transform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform, b));
+        public static Obb3M Mul(Aabb3S a, RigidTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform3, b));
+        public static Obb3M Mul(Aabb3S a, UniformTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform3, b));
+        public static Obb3M Mul(Aabb3S a, NonUniformTransform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform3, b));
+        public static Obb3M Mul(Aabb3S a, Matrix3x3Transform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform3, b));
+        public static Obb3M Mul(Aabb3S a, Matrix4x4Transform3 b) => new Obb3M(Mul(a.ToMatrix4x4Transform3, b));
         public static Aabb3M Mul(Aabb3S a, Aabb3M b) => Mul(a.Translation3, Mul(a.Scale3, b));
         public static Aabb3C Mul(Aabb3S a, Aabb3C b) => Mul(a.Translation3, Mul(a.Scale3, b));
         public static Aabb3S Mul(Aabb3S a, Aabb3S b) => Mul(a.Translation3, Mul(a.Scale3, b));

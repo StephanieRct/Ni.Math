@@ -76,10 +76,10 @@ namespace Ni.Mathematics.Tests
         public static readonly Obb3M Obb3M1 = new Obb3M(Obb3M1_T, Obb3M1_R, Obb3M1_S);
 
 
-        public static readonly float4x4 M4Obb3M0 = Obb3M0.ToMatrix4x4Transform;
-        public static readonly float4x4 M4Obb3M1 = Obb3M1.ToMatrix4x4Transform;
-        public static readonly float4x4 M4Obb3Mi0 = math.inverse(Obb3M0.ToMatrix4x4Transform);
-        public static readonly float4x4 M4Obb3Mi1 = math.inverse(Obb3M1.ToMatrix4x4Transform);
+        public static readonly float4x4 M4Obb3M0 = Obb3M0.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4Obb3M1 = Obb3M1.ToMatrix4x4Transform3;
+        public static readonly float4x4 M4Obb3Mi0 = math.inverse(Obb3M0.ToMatrix4x4Transform3);
+        public static readonly float4x4 M4Obb3Mi1 = math.inverse(Obb3M1.ToMatrix4x4Transform3);
 
 
     }

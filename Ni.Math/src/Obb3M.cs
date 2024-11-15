@@ -7,14 +7,13 @@ namespace Ni.Mathematics
     /// Represent the sequence of transformations: Translation * Rotation * Shear * NonUniformScale
     /// </summary>
     [Serializable]
-    public struct Obb3M : ITransform3, ITranslation3RW, IRotation3QRW, INonUniformScale3RW,
-        IEquatable<Obb3M>,
-        INearEquatable<Obb3M, float>,
+    public struct Obb3M : ITranslation3RW, IRotation3QRW, IScale3RW,
+        ITransform3<Obb3M>,
+        //IShearableTransformable3<Obb3M>,
+        IBox3<Obb3M>,
         ITransformable3<Translation3, Obb3M, Obb3M, Obb3M, Obb3M>,
         IToMatrix4x4Transform,
         IInvertible<Obb3M>,
-        ITransform<float3>,
-        ITransform<Ray3>,
         IMultipliable<Translation3, Obb3M>,
         IMultipliable<Rotation3Q, Obb3M>,
         IMultipliable<Scale1, Obb3M>,
@@ -76,9 +75,14 @@ namespace Ni.Mathematics
 
         public static implicit operator float4x4(Obb3M o) => o.Matrix4x4Transform;
         public static implicit operator Obb3M(float4x4 o) => new Obb3M(o);
-        public static implicit operator Matrix4x4Transform3(Obb3M o) => o.Matrix4x4Transform;
+
         public static implicit operator Obb3M(Matrix4x4Transform3 o) => new Obb3M(o);
-        public static explicit operator Obb3M(Obb3T o) => new Obb3M(o.NonUniformTransform.ToMatrix4x4Transform);
+
+        public static explicit operator Obb3M(Aabb3M o) => new Matrix4x4Transform3(o);
+        public static explicit operator Obb3M(Aabb3S o) => new Matrix4x4Transform3(o);
+        public static explicit operator Obb3M(Aabb3C o) => new Matrix4x4Transform3(o);
+        public static explicit operator Obb3M(Obb3T o) => new Obb3M(o.ToMatrix4x4Transform3);
+
         public static readonly Obb3M Identity = new Obb3M(Matrix4x4Transform3.Identity);
         public static readonly Obb3M Origin = new Obb3M(new float4x4(1.0f, 0.0f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, -0.5f, 0.0f, 0.0f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f));
         public static Obb3M Translating(float3 translation) => new Matrix4x4Transform3(float4x4.Translate(translation));
@@ -103,9 +107,9 @@ namespace Ni.Mathematics
             get => Matrix4x4Transform.scale3;
             set => Matrix4x4Transform.scale3 = value;
         }
-        public Aabb3M TranslationScale { get => Matrix4x4Transform.TranslationScale; set => Matrix4x4Transform.TranslationScale = value; }
-        public RigidTransform3 TranslationRotation { get => Matrix4x4Transform.TranslationRotation; set => Matrix4x4Transform.TranslationRotation = value; }
-        public Matrix3x3Transform3 RotationScale { get => Matrix4x4Transform.RotationScale; set => Matrix4x4Transform.RotationScale = value; }
+        public Aabb3M TranslationScale { get => Matrix4x4Transform.Translation3Scale3; set => Matrix4x4Transform.Translation3Scale3 = value; }
+        public RigidTransform3 TranslationRotation { get => Matrix4x4Transform.Translation3Rotation3; set => Matrix4x4Transform.Translation3Rotation3 = value; }
+        public Matrix3x3Transform3 RotationScale { get => Matrix4x4Transform.Rotation3Shear3Scale3; set => Matrix4x4Transform.Rotation3Shear3Scale3 = value; }
         public float3 this[float3 o] => Matrix4x4Transform.Transform(o);
 
         public Translation3 Translation3 { get => new Translation3(translation3); set => translation3 = value.translation; }
@@ -127,7 +131,7 @@ namespace Ni.Mathematics
         public bool NearEquals(Matrix4x4Transform3 other, float margin) => NiMath.NearEqual(this, other, margin);
 
         public Obb3M Inversed => NiMath.Inverse(this);
-        public Matrix4x4Transform3 ToMatrix4x4Transform => Matrix4x4Transform;
+        public Matrix4x4Transform3 ToMatrix4x4Transform3 => Matrix4x4Transform;
 
         public Obb3M Translated(float3 translation) => NiMath.Translate(translation, this);
         public Obb3M Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
@@ -149,10 +153,17 @@ namespace Ni.Mathematics
         public Obb3M Scale(Scale1 scale) => NiMath.Scale(this, scale);
         public Obb3M Scale(Scale3 scale) => NiMath.Scale(this, scale);
 
-        public float3 Transform(float3 o) => Matrix4x4Transform.Transform(o);
-        public Ray3 Transform(Ray3 o) => Matrix4x4Transform.Transform(o);
-        public float3 Untransform(float3 o) => Matrix4x4Transform.Untransform(o);
-        public Ray3 Untransform(Ray3 o) => Matrix4x4Transform.Untransform(o);
+        public float3 Transform(float3 o) => NiMath.Transform(this, o);
+        public Direction3 Transform(Direction3 o) => NiMath.Transform(this, o);
+        public ProjectionAxis3x1 Transform(ProjectionAxis3x1 o) => NiMath.Transform(this, o);
+        public ProjectionAxis1x3 Transform(ProjectionAxis1x3 o) => NiMath.Transform(this, o);
+        public Ray3 Transform(Ray3 o) => NiMath.Transform(this, o);
+
+        public float3 Untransform(float3 o) => NiMath.Untransform(this, o);
+        public Direction3 Untransform(Direction3 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis3x1 Untransform(ProjectionAxis3x1 o) => NiMath.Untransform(this, o);
+        public ProjectionAxis1x3 Untransform(ProjectionAxis1x3 o) => NiMath.Untransform(this, o);
+        public Ray3 Untransform(Ray3 o) => NiMath.Untransform(this, o);
 
         public Obb3M Mul(Translation3 o) => NiMath.Mul(this, o);
         public Obb3M Mul(Rotation3Q o) => NiMath.Mul(this, o);
@@ -222,8 +233,14 @@ namespace Ni.Mathematics
         public static Obb3M Scale(Obb3M o, Scale3 scale) => Mul(o, (Scale3)scale);
 
         public static float3 Transform(Obb3M a, float3 b) => Transform(a.Matrix4x4Transform, b);
+        public static Direction3 Transform(Obb3M a, Direction3 b) => Transform(a.Matrix4x4Transform, b);
+        public static ProjectionAxis3x1 Transform(Obb3M a, ProjectionAxis3x1 b) => Transform(a.Matrix4x4Transform, b);
+        public static ProjectionAxis1x3 Transform(Obb3M a, ProjectionAxis1x3 b) => Transform(a.Matrix4x4Transform, b);
         public static Ray3 Transform(Obb3M a, Ray3 b) => Transform(a.Matrix4x4Transform, b);
         public static float3 Untransform(Obb3M a, float3 b) => Untransform(a.Matrix4x4Transform, b);
+        public static Direction3 Untransform(Obb3M a, Direction3 b) => Transform(Inverse(a), b);
+        public static ProjectionAxis3x1 Untransform(Obb3M a, ProjectionAxis3x1 b) => Transform(Inverse(a), b);
+        public static ProjectionAxis1x3 Untransform(Obb3M a, ProjectionAxis1x3 b) => Transform(Inverse(a), b);
         public static Ray3 Untransform(Obb3M a, Ray3 b) => Untransform(a.Matrix4x4Transform, b);
 
         public static Obb3M Mul(Obb3M a, Translation3 b) => Mul(a.Matrix4x4Transform, b);

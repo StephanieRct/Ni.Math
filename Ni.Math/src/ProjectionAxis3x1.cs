@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using UnityEngine.Assertions;
 
 namespace Ni.Mathematics
 {
@@ -19,7 +20,7 @@ namespace Ni.Mathematics
     ///    ^--- Projected Scalar value at 0 is origin vector (0,0,0)
     /// </summary>
     [Serializable]
-    public struct ProjectionAxis3x1 : IRotation3QW, IUniformScaleRW,
+    public struct ProjectionAxis3x1 : IRotation3QW, IScale1RW,
         IEquatable<ProjectionAxis3x1>,
         INearEquatable<ProjectionAxis3x1>,
         IRotated<ProjectionAxis3x1, quaternion>,
@@ -42,15 +43,15 @@ namespace Ni.Mathematics
         public float scale1 { get => math.length(axis); set => axis *= value / math.length(axis); }
         public Rotation3Q Rotation3 { set => rotation3 = value.rotation; }
         public Scale1 Scale1 { get => new Scale1(scale1); set => scale1 = value.scale; }
-        public ProjectionAxis3x1 Projection3x1 => new ProjectionAxis3x1(math.normalize(axis));
+        public Direction3 Direction3 => new Direction3(math.normalize(axis));
         public float3 this[float o] => axis * o;
 
         public bool Equals(ProjectionAxis3x1 o) => math.all(axis == o.axis);
         public bool NearEquals(ProjectionAxis3x1 o, float margin) => NiMath.NearEqual(axis, o.axis, margin);
 
+        public ProjectionAxis3x1 Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
         public ProjectionAxis3x1 Scaled(float scale) => NiMath.Scale(scale, this);
         public ProjectionAxis3x1 Scaled(float3 scale) => NiMath.Scale(scale, this);
-        public ProjectionAxis3x1 Rotated(quaternion rotation) => NiMath.Rotate(rotation, this);
 
         public ProjectionAxis3x1 Scale(float scale) => NiMath.Scale(this, scale);
 

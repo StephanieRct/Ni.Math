@@ -13,5 +13,7 @@ namespace Ni.Mathematics
             this.a = a;
             this.b = b;
         }
+
+        public Aabb3M BoundingBox => new Aabb3M(this);
     }
 }
