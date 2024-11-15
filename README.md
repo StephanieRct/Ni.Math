@@ -11,6 +11,7 @@ Ni.Math Transforms:
   * Translation3 : 3D translation
   * Rotation3Q : 3D rotation as quaternion
   * Rotation3E : 3D rotation as Euler X, Y, Z angles
+  * ShearXY3 : 3D shear on axes Y.x, Z.x, Z.y components
   * Scale1 : 1D scale, 3D uniform scale
   * Scale3 : 3D non-uniform scale
   * RigidTransform3 : 3D translation * 3D rotation
@@ -25,6 +26,7 @@ Ni.Math Transforms:
   * Obb3M : 3D translation * 3D rotation * 3D shear * 3D non-uniform scale : 3D Oriented Bounding Box (Matrix4x4Transform3)
   * ProjectionAxis3x1 : 3D projection from 1D : Project a 1D scalar value onto a 3D axis vector.
   * ProjectionAxis1x3 : 1D projection from 3D : Project a 3D vector onto an axis vector 1D scalar value.
+  * Direction3 : Unit 3D vector
   * Ray3 : 3D translation * 3D projection from 1D : 3D ray (origin, direction)
   * RayI3 : 1D projection from 3D * 3D translation : 3D inverse ray.
   * LineSegment3: 3D translation * 3D projection from 1D : 2 3D points connected as a line segment
@@ -32,8 +34,17 @@ Ni.Math Transforms:
 Ni.Math Static classes:
   * NiMath : Contains all variations of:
      * NearEqual(a, b, margin) : Return if a and b are equal within a margin of error
+     * GetTranslation(a) : Get the translation component of the transform a
+     * GetRotation(a) : Get the rotation component of the transform a
+     * GetShear(a) : Get the shear component of the transform a
+     * GetScale(a) : Get the scale component of the transform a
+     * ReTranslate(a, b) : return a with its translation component set to b.
+     * ReRotate(a, b) : return a with its rotation component set to b.
+     * ReShear(a, b) : return a with its shear component set to b.
+     * ReScale(a, b) : return a with its scale component set to b.
      * Translate(a, b) : Translate b by a
      * Rotate(a, b) : Rotate b by a
+     * Shear(a, b) : Shear b by a
      * Scale(a, b) : Scale b by a
      * Inverse(a) : return the inverse of transform a
      * Transform(a, b) : Transform b by a
@@ -42,6 +53,7 @@ Ni.Math Static classes:
      * Div(a, b) : Divide b by a (combine inverse transform. Right to left transformation order)
      * Contains(a, b) : If b is contained within a
      * Raycast1(ray, b, maxDistance, out float t) : Ray cast on b. return true if ray hits b. Hit 3d point is ray[t]
+     * Decompose(o, ...) : Decompose a transform into its primary transformations.
   * Cube3 : Contains metrics for a 3D cube such as vertices, edges, indices, etc.
     
 Ni.Math.Editor:
