@@ -234,6 +234,7 @@ namespace Ni.Mathematics
         public static Obb3T Div(Rotation3Q a, Obb3T b) => Mul(Inverse(a), b);
         public static Obb3M Div(Rotation3Q a, Obb3M b) => Mul(Inverse(a), b);
 
+        public static Rotation3Q Lerp(Rotation3Q a, Rotation3Q b, float t) => new Rotation3Q(a.rotation.value * (t-1) + b.rotation.value * t);
         public static Rotation3Q Rotation(quaternion rotation) => new Rotation3Q(rotation);
     }
 }

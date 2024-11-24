@@ -241,6 +241,8 @@ namespace Ni.Mathematics
         public static Obb3M Div(Translation3 a, Obb3M b) => Mul(Inverse(a), b);
         public static Ray3 Div(Translation3 a, ProjectionAxis3x1 b) => new Ray3(Inverse(a), b);
 
+        public static Translation3 Lerp(Translation3 a, Translation3 b, float t) => new Translation3(a.translation * (1 - t) + b.translation * t);
+        public static Translation3 Lerp(Translation3 a, Translation3 b, float3 t) => new Translation3(a.translation * (1 - t) + b.translation * t);
         public static Translation3 Translation(float3 translation) => new Translation3(translation);
     }
 

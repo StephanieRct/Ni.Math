@@ -95,19 +95,6 @@ namespace Ni.Mathematics
     }
 
     /// <summary>
-    /// TODO.
-    /// ref: 
-    /// https://stackoverflow.com/questions/18362043/shear-matrix-as-a-combination-of-basic-transformation
-    /// https://caff.de/posts/4x4-matrix-decomposition/
-    /// </summary>
-    /// <typeparam name="TPrime"></typeparam>
-    //public interface IShearing3
-    //{
-    //    float3 Shearing {get; set;}
-    //}
-
-
-    /// <summary>
     /// Has the possibility to transform / untransform a primitive.
     /// </summary>
     public interface ITransform<TOther> : ITransform<TOther, TOther>
@@ -164,7 +151,6 @@ namespace Ni.Mathematics
         IToMatrix4x4Transform
     {
     }
-
 
     /// <summary>
     /// 3D transform
@@ -238,13 +224,13 @@ namespace Ni.Mathematics
         IShear<TShear, ShearXY3>
     {
     }
+
     public interface IBox3 : ITransform3
     {
-
     }
+
     public interface IBox3<TSelf> : IBox3, ITransform3<TSelf>
     {
-
     }
 
     public static partial class NiMath
