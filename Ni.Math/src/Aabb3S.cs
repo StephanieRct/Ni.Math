@@ -206,6 +206,8 @@ namespace Ni.Mathematics
         public Aabb3S Div(Aabb3S o) => NiMath.Div(this, o);
         public Obb3M Div(Obb3T o) => NiMath.Div(this, o);
         public Obb3M Div(Obb3M o) => NiMath.Div(this, o);
+
+        public Aabb3S Bound(Aabb3S o) => NiMath.Bound(this, o);
     }
 
     public static partial class NiMath
@@ -288,6 +290,8 @@ namespace Ni.Mathematics
         public static Aabb3S Div(Aabb3S a, Aabb3S b) => Mul(Inverse(a), b);
         public static Obb3M Div(Aabb3S a, Obb3T b) => Mul(Inverse(a), b);
         public static Obb3M Div(Aabb3S a, Obb3M b) => Mul(Inverse(a), b);
+
+        public static Aabb3S Bound(Aabb3S a, Aabb3S b) => (Aabb3S)new Aabb3M(math.min(a.min, b.min), math.max(a.max, b.max));
 
         public static Aabb3S Aabb3S(float3 min, float3 size) => new Aabb3S(min, size);
     }
