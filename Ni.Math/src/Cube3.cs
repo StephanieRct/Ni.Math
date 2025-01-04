@@ -148,7 +148,6 @@ namespace Ni.Mathematics
             Edge110111 = 11, // Edge 11, Vertices: (3, 4)
         }
 
-
         public static IEnumerable<int2> IdentityEdgesIndices
         {
             get
@@ -167,6 +166,25 @@ namespace Ni.Mathematics
                 yield return new int2(3, 4);
             }
         }
+        public static IEnumerable<float3> IdentityEdgesOffsets
+        {
+            get
+            {
+                yield return new float3(1, 0, 0);
+                yield return new float3(0, 1, 0);
+                yield return new float3(0, 0, 1);
+                yield return new float3(1, 0, 0);
+                yield return new float3(0, -1, 0);
+                yield return new float3(0, 0, -1);
+                yield return new float3(-1, 0, 0);
+                yield return new float3(0, 1, 0);
+                yield return new float3(0, 0, -1);
+                yield return new float3(-1, 0, 0);
+                yield return new float3(0, -1, 0);
+                yield return new float3(0, 0, 1);
+            }
+        }
+
         public static IEnumerable<LineSegment3> IdentityEdges
         {
             get
@@ -177,14 +195,16 @@ namespace Ni.Mathematics
         }
 
 
-
         public static NativeArray<float3> IdentityVerticesArray;
         public static NativeArray<int2> IdentityEdgesIndicesArray;
+        public static NativeArray<float3> IdentityEdgesOffsetsArray;
         public static NativeArray<LineSegment3> IdentityEdgesArray;
+
         static Cube3()
         {
             IdentityVerticesArray = new NativeArray<float3>(IdentityVertices.ToArray(), Allocator.Persistent);
             IdentityEdgesIndicesArray = new NativeArray<int2>(IdentityEdgesIndices.ToArray(), Allocator.Persistent);
+            IdentityEdgesOffsetsArray = new NativeArray<float3>(IdentityEdgesOffsets.ToArray(), Allocator.Persistent);
             IdentityEdgesArray = new NativeArray<LineSegment3>(IdentityEdges.ToArray(), Allocator.Persistent);
 #if UNITY_EDITOR
             UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += Dispose;
