@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityBounds = UnityEngine.Bounds;
 using UnityBoxCollider = UnityEngine.BoxCollider;
@@ -79,6 +80,7 @@ namespace Ni.Mathematics
             center = o.center;
         }
 
+        public static readonly Aabb3C Zero = new Aabb3C(float3.zero, float3.zero);
         public static readonly Aabb3C Identity = new Aabb3C(0.5f, 0.5f);
         public static readonly Aabb3C Origin = new Aabb3C(float3.zero, 0.5f);
         public static implicit operator Aabb3C(UnityBounds o) => new Aabb3C(o.center, o.extents);
@@ -136,6 +138,16 @@ namespace Ni.Mathematics
         public Translation3 Translation3 { get => new Translation3(translation3); set => translation3 = value.translation; }
         public Scale3 Scale3 { get => new Scale3(scale3); set => scale3 = value.scale; }
         public float3 this[float3 t] => min + t * size;
+
+        public IEnumerable<float3> Points
+        {
+            get
+            {
+                foreach (var p in Cube3.IdentityVertices)
+                    yield return NiMath.Transform(this, p);
+            }
+        }
+        public IEnumerable<int2> EdgeIndices => Cube3.IdentityEdgesIndicesArray;
 
         public override string ToString() => $"{nameof(Aabb3C)}(Cx:{center.x}, Cy:{center.y}, Cz:{center.z}, Ex:{extent.x}, Ey:{extent.y}, Ez:{extent.z})";
 
@@ -217,7 +229,9 @@ namespace Ni.Mathematics
         public Obb3M Div(Obb3T o) => NiMath.Div(this, o);
         public Obb3M Div(Obb3M o) => NiMath.Div(this, o);
 
+        public Aabb3C Bound(float3 o) => NiMath.Bound(this, o);
         public Aabb3C Bound(Aabb3C o) => NiMath.Bound(this, o);
+        public Aabb3M Bounds() => NiMath.BoundsOf(this);
     }
 
     public static partial class NiMath
@@ -300,6 +314,7 @@ namespace Ni.Mathematics
         public static Obb3M Div(Aabb3C a, Obb3T b) => Mul(Inverse(a), b);
         public static Obb3M Div(Aabb3C a, Obb3M b) => Mul(Inverse(a), b);
 
+        public static Aabb3C Bound(Aabb3C a, float3 b) => (Aabb3C)new Aabb3M(math.min(a.min, b), math.max(a.max, b));
         public static Aabb3C Bound(Aabb3C a, Aabb3C b) => (Aabb3C)new Aabb3M(math.min(a.min, b.min), math.max(a.max, b.max));
 
         public static Aabb3C Aabb3C(float3 center, float3 extent) => new Aabb3C(center, extent);

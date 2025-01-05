@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using Unity.Mathematics;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Ni.Mathematics
 {
@@ -225,7 +227,13 @@ namespace Ni.Mathematics
     {
     }
 
-    public interface IBox3 : ITransform3
+    public interface IShape3
+    {
+        public IEnumerable<float3> Points { get; }
+        public IEnumerable<int2> EdgeIndices { get; }
+    }
+
+    public interface IBox3 : IShape3, ITransform3
     {
     }
 

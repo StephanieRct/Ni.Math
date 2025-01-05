@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEngine;
 using UnityBounds = UnityEngine.Bounds;
 using UnityBoxCollider = UnityEngine.BoxCollider;
 using UnityTransform3 = UnityEngine.Transform;
@@ -105,6 +107,9 @@ namespace Ni.Mathematics
         public Rotation3Q Rotation3 { get => new Rotation3Q(rotation3); set => rotation3 = value.rotation; }
         public Scale3 Scale3 { get => new Scale3(scale3); set => scale3 = value.scale; }
 
+        /// <summary>
+        /// Returns the box without rotation.
+        /// </summary>
         public Aabb3M Aabb3M
         {
             get => Aabb3M.TS(NonUniformTransform.translation, NonUniformTransform.scale);
@@ -115,6 +120,9 @@ namespace Ni.Mathematics
             }
         }
 
+        /// <summary>
+        /// Returns the box without rotation.
+        /// </summary>
         public Aabb3S Aabb3S
         {
             get => Aabb3S.TS(NonUniformTransform.translation, NonUniformTransform.scale);
@@ -125,6 +133,9 @@ namespace Ni.Mathematics
             }
         }
 
+        /// <summary>
+        /// Returns the box without rotation.
+        /// </summary>
         public Aabb3C Aabb3C
         {
             get => Aabb3C.TS(NonUniformTransform.translation, NonUniformTransform.scale);
@@ -134,6 +145,17 @@ namespace Ni.Mathematics
                 NonUniformTransform.scale = value.scale3;
             }
         }
+
+        public IEnumerable<float3> Points
+        {
+            get
+            {
+                foreach (var p in Cube3.IdentityVertices)
+                    yield return NiMath.Transform(this, p);
+            }
+        }
+
+        public IEnumerable<int2> EdgeIndices => Cube3.IdentityEdgesIndicesArray;
 
         public override string ToString() => $"{nameof(Obb3T)}(Tx:{NonUniformTransform.translation.x}, Ty:{NonUniformTransform.translation.y}, Tz:{NonUniformTransform.translation.z}, Rx:{NonUniformTransform.rotation.value.x}, Ry:{NonUniformTransform.rotation.value.y}, Rz:{NonUniformTransform.rotation.value.z}, Rw:{NonUniformTransform.rotation.value.w}, Sx:{NonUniformTransform.scale.x}, Sy:{NonUniformTransform.scale.y}, Sz:{NonUniformTransform.scale.z})";
         
@@ -215,6 +237,8 @@ namespace Ni.Mathematics
         public Obb3M Div(Aabb3S o) => NiMath.Div(this, o);
         public Obb3M Div(Obb3T o) => NiMath.Div(this, o);
         public Obb3M Div(Obb3M o) => NiMath.Div(this, o);
+
+        public Aabb3M Bounds() => NiMath.BoundsOf(this);
     }
 
     public static partial class NiMath
@@ -294,6 +318,14 @@ namespace Ni.Mathematics
         public static Obb3M Div(Obb3T a, Obb3T b) => Mul(Inverse(a), b);
         public static Obb3M Div(Obb3T a, Obb3M b) => Mul(Inverse(a), b);
 
+        public static Aabb3M BoundsOf<TBox>(TBox o)
+            where TBox : IBox3
+        {
+            Aabb3M bounds = Ni.Mathematics.Aabb3M.Zero;
+            foreach(var p in Cube3.IdentityVertices)
+                bounds = bounds.Bound(o.Transform(p));
+            return bounds;
+        }
         public static Obb3T Obb3T(NonUniformTransform3 nonUniformTransform) => new Obb3T(nonUniformTransform);
         public static Obb3T Obb3T(float3 translation, quaternion rotation, float3 scale) => new Obb3T(translation, rotation, scale);
     }

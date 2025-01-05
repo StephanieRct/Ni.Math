@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityBounds = UnityEngine.Bounds;
 using UnityBoxCollider = UnityEngine.BoxCollider;
@@ -78,6 +79,7 @@ namespace Ni.Mathematics
             min = (float3)o.center - size * 0.5f;
         }
 
+        public static readonly Aabb3S Zero = new Aabb3S(float3.zero, float3.zero);
         public static readonly Aabb3S Identity = new Aabb3S(float3.zero, 1);
         public static readonly Aabb3S Origin = new Aabb3S(-0.5f, 1);
 
@@ -126,6 +128,16 @@ namespace Ni.Mathematics
         public Translation3 Translation3 { get => new Translation3(translation3); set => translation3 = value.translation; }
         public Scale3 Scale3 { get => new Scale3(scale3); set => scale3 = value.scale; }
         public float3 this[float3 t] => min + t * size;
+
+        public IEnumerable<float3> Points
+        {
+            get
+            {
+                foreach (var p in Cube3.IdentityVertices)
+                    yield return NiMath.Transform(this, p);
+            }
+        }
+        public IEnumerable<int2> EdgeIndices => Cube3.IdentityEdgesIndicesArray;
 
         public override string ToString() => $"{nameof(Aabb3S)}(Minx:{min.x}, Miny:{min.y}, Minz:{min.z}, Sx:{size.x}, Sy:{size.y}, Sz:{size.z})";
 
@@ -207,7 +219,9 @@ namespace Ni.Mathematics
         public Obb3M Div(Obb3T o) => NiMath.Div(this, o);
         public Obb3M Div(Obb3M o) => NiMath.Div(this, o);
 
+        public Aabb3S Bound(float3 o) => NiMath.Bound(this, o);
         public Aabb3S Bound(Aabb3S o) => NiMath.Bound(this, o);
+        public Aabb3M Bounds() => NiMath.BoundsOf(this);
     }
 
     public static partial class NiMath
@@ -291,6 +305,7 @@ namespace Ni.Mathematics
         public static Obb3M Div(Aabb3S a, Obb3T b) => Mul(Inverse(a), b);
         public static Obb3M Div(Aabb3S a, Obb3M b) => Mul(Inverse(a), b);
 
+        public static Aabb3S Bound(Aabb3S a, float3 b) => (Aabb3S)new Aabb3M(math.min(a.min, b), math.max(a.max, b));
         public static Aabb3S Bound(Aabb3S a, Aabb3S b) => (Aabb3S)new Aabb3M(math.min(a.min, b.min), math.max(a.max, b.max));
 
         public static Aabb3S Aabb3S(float3 min, float3 size) => new Aabb3S(min, size);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 
 namespace Ni.Mathematics
@@ -116,6 +117,16 @@ namespace Ni.Mathematics
         public Rotation3Q Rotation3 { get => new Rotation3Q(rotation3); set => rotation3 = value.rotation; }
         public Scale3 Scale3 { get => new Scale3(scale3); set => scale3 = value.scale; }
 
+        public IEnumerable<float3> Points
+        {
+            get
+            {
+                foreach (var p in Cube3.IdentityVertices)
+                    yield return NiMath.Transform(this, p);
+            }
+        }
+        public IEnumerable<int2> EdgeIndices => Cube3.IdentityEdgesIndicesArray;
+
         public override string ToString() => $"{nameof(Obb3M)}({Matrix4x4Transform.matrix.c0.x}, {Matrix4x4Transform.matrix.c1.x}, {Matrix4x4Transform.matrix.c2.x}, {Matrix4x4Transform.matrix.c3.x}, {Matrix4x4Transform.matrix.c0.y}, {Matrix4x4Transform.matrix.c1.y}, {Matrix4x4Transform.matrix.c2.y}, {Matrix4x4Transform.matrix.c3.y}, {Matrix4x4Transform.matrix.c0.z}, {Matrix4x4Transform.matrix.c1.z}, {Matrix4x4Transform.matrix.c2.z}, {Matrix4x4Transform.matrix.c3.z}, {Matrix4x4Transform.matrix.c0.w}, {Matrix4x4Transform.matrix.c1.w}, {Matrix4x4Transform.matrix.c2.w}, {Matrix4x4Transform.matrix.c3.w})";
         
         public bool Equals(Obb3M other) => NiMath.Equal(this, other);
@@ -193,6 +204,8 @@ namespace Ni.Mathematics
         public Obb3M Div(Aabb3S o) => NiMath.Div(this, o);
         public Obb3M Div(Obb3T o) => NiMath.Div(this, o);
         public Obb3M Div(Obb3M o) => NiMath.Div(this, o);
+
+        public Aabb3M Bounds() => NiMath.BoundsOf(this);
     }
 
     public static partial class NiMath
