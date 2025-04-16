@@ -6,7 +6,8 @@ using UnityEditor;
 
 namespace Ni.Mathematics
 {
-    [InitializeOnLoad]
+
+    //[InitializeOnLoad]
     public static class Cube3
     {
         public static readonly float3 IdentityMin = float3.zero;
